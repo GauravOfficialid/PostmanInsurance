@@ -1,0 +1,559 @@
+{
+	"id": "b7f2377e-e583-404b-8530-6163c002222c",
+	"values": [
+		{
+			"key": "ivanGlobal",
+			"value": "postman.ivan.ga",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "ivanUser",
+			"value": "postman.ivan.user",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "ivanSysUser",
+			"value": "postman.ivan.sysuser",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "ivanPassword",
+			"value": "Password123",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "carrierMailboxAutomation",
+			"value": "AUTOCARR.AUTOMATION",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "carrierAdmin",
+			"value": "postman.autocarr.admin",
+			"enabled": true
+		},
+		{
+			"key": "carrierUser",
+			"value": "postman.autocarr.user",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "carrierSysUser",
+			"value": "postman.autocarr.sysuser",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "carrierPassword",
+			"value": "Password123",
+			"enabled": true
+		},
+		{
+			"key": "carrierMailboxAutomationPassword",
+			"value": "Password123",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "agencyMailboxyx50vnv",
+			"value": "y7773.yx50vnv",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "agencyAdmin",
+			"value": "postman.y7773.admin",
+			"enabled": true
+		},
+		{
+			"key": "agencyUser",
+			"value": "postman.y7773.user",
+			"enabled": true
+		},
+		{
+			"key": "agencySysUser",
+			"value": "postman.y7773.sysuser",
+			"enabled": true
+		},
+		{
+			"key": "agencyPassword",
+			"value": "Password123",
+			"enabled": true
+		},
+		{
+			"key": "agencyMailboxPassword",
+			"value": "Password123",
+			"enabled": true
+		},
+		{
+			"key": "allScope",
+			"value": "openid file_transfer trading_partners  producers bookrolls ",
+			"enabled": true
+		},
+		{
+			"key": "exchangeFileTransferScopes",
+			"value": "openid exchange file_transfer",
+			"enabled": true
+		},
+		{
+			"key": "exchangeBookrollScopes",
+			"value": "openid exchange bookrolls",
+			"enabled": true
+		},
+		{
+			"key": "fileTransferScope",
+			"value": "openid file_transfer",
+			"enabled": true
+		},
+		{
+			"key": "carrierAccount",
+			"value": "autocarr",
+			"enabled": true
+		},
+		{
+			"key": "carrierMailbox",
+			"value": "automation",
+			"enabled": true
+		},
+		{
+			"key": "agencyAccount",
+			"value": "y7773",
+			"enabled": true
+		},
+		{
+			"key": "agencyMailbox",
+			"value": "YX50VNV",
+			"enabled": true
+		},
+		{
+			"key": "carrierAcoountNoAccess",
+			"value": "Hig0",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "carrierMailboxNoAcess",
+			"value": "test1",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "wrongAccount",
+			"value": "ssss",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "wrongUserID",
+			"value": "sssss",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "internalScope",
+			"value": "openid file_transfer trading_partners producers bookrolls exchange",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "dbcd",
+			"value": "AIDOWN",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "claim",
+			"value": "CLMDWN",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "edoc",
+			"value": "ALRTDWN",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "policy",
+			"value": "AIDOWN",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "fakeFileID",
+			"value": "00000ABC-1111-2222-3333-121231231231",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "carrierEmptyMailbox",
+			"value": "leaveempty",
+			"enabled": true
+		},
+		{
+			"key": "csioScope",
+			"value": "openid file_transfer trading_partners csio_polling   producers bookrolls",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "ivanGlobalElevated",
+			"value": "postman.ivan.ga.elevated",
+			"enabled": true
+		},
+		{
+			"key": "ivanGlobalPermitted",
+			"value": "postman.ivan.ga.permitted",
+			"enabled": true
+		},
+		{
+			"key": "ivanGlobalElevatedPermissionA",
+			"value": "postman.ivan.ga.elevated.permissionA",
+			"enabled": true
+		},
+		{
+			"key": "ivanGlobalPermittedPermissionA",
+			"value": "postman.ivan.ga.permitted.permissionA",
+			"enabled": true
+		},
+		{
+			"key": "carrierAdminEditedPermissions",
+			"value": "postman.carrier.admin",
+			"enabled": true
+		},
+		{
+			"key": "vendorAdmin",
+			"value": "postman.aps2.admin",
+			"enabled": true
+		},
+		{
+			"key": "vendorUser",
+			"value": "postman.aps2.user",
+			"enabled": true
+		},
+		{
+			"key": "vendorSysUser",
+			"value": "postman.aps2.sysuser",
+			"enabled": true
+		},
+		{
+			"key": "vendorPassword",
+			"value": "Password123",
+			"enabled": true
+		},
+		{
+			"key": "ivanCsioAdmin",
+			"value": "h.hughes",
+			"enabled": true
+		},
+		{
+			"key": "hig0CarrierAdmin",
+			"value": "postman.hig0.admin",
+			"enabled": true
+		},
+		{
+			"key": "hig0CarrierAdminPasswaord",
+			"value": "Password@123",
+			"enabled": true
+		},
+		{
+			"key": "ivanCarrierAdmin",
+			"value": "postman.autocarr.admin",
+			"enabled": true
+		},
+		{
+			"key": "ivanAdminwithCsio",
+			"value": "h.hughes",
+			"enabled": true
+		},
+		{
+			"key": "wrongFileId",
+			"value": "00000000-0000-0000-0000-000000000000",
+			"enabled": true
+		},
+		{
+			"key": "emptyAgencyMailbox",
+			"value": "y7773.leaveempty",
+			"enabled": true
+		},
+		{
+			"key": "yduxhAccount",
+			"value": "yduxh",
+			"enabled": true
+		},
+		{
+			"key": "yduxhMailbox",
+			"value": "yx66xu6",
+			"enabled": true
+		},
+		{
+			"key": "agencyMailboxOneFile",
+			"value": "onefile",
+			"enabled": true
+		},
+		{
+			"key": "agencyEmptyMailbox",
+			"value": "leaveempty",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "carrierMailboxID",
+			"value": "autocarr.other",
+			"enabled": true
+		},
+		{
+			"key": "agencyMailboxotherID",
+			"value": "y7773.other",
+			"enabled": true
+		},
+		{
+			"key": "ivanMailboxID",
+			"value": "ivan.other",
+			"enabled": true
+		},
+		{
+			"key": "agencyMailboxYX50SE5ID",
+			"value": "y0036.yx50se5",
+			"enabled": true
+		},
+		{
+			"key": "invalidMailboxId",
+			"value": "fake",
+			"enabled": true
+		},
+		{
+			"key": "non-existentMailbox",
+			"value": "ylabh.ylabh",
+			"enabled": true
+		},
+		{
+			"key": "ivanMailboxId",
+			"value": "ivan.automation",
+			"enabled": true
+		},
+		{
+			"key": "vendorMailboxId",
+			"value": "aps2.appsys2",
+			"enabled": true
+		},
+		{
+			"key": "vendorAccount",
+			"value": "aps2",
+			"enabled": true
+		},
+		{
+			"key": "vendorMailbox",
+			"value": "appsys1",
+			"enabled": true
+		},
+		{
+			"key": "ivanSysUsertest",
+			"value": "postman.ivan.sysusertest",
+			"enabled": true
+		},
+		{
+			"key": "CarreirMailboxTest1ID",
+			"value": "hig0.test1",
+			"enabled": true
+		},
+		{
+			"key": "carrierSysUserTest",
+			"value": "postman.autocarr.sysusertest",
+			"enabled": true
+		},
+		{
+			"key": "agencySysUserTest",
+			"value": "postman.y7773.sysusertest",
+			"enabled": true
+		},
+		{
+			"key": "vendorSysUserTest",
+			"value": "postman.aps2.sysusertest",
+			"enabled": true
+		},
+		{
+			"key": "identityscope",
+			"value": "openid identity file_transfer",
+			"enabled": true
+		},
+		{
+			"key": "IvanMailbox",
+			"value": "automation",
+			"enabled": true
+		},
+		{
+			"key": "IvanAccount",
+			"value": "ivan",
+			"enabled": true
+		},
+		{
+			"key": "onefile",
+			"value": "onefile",
+			"enabled": true
+		},
+		{
+			"key": "allScopes",
+			"value": "openid file_transfer trading_partners  producers bookrolls ",
+			"enabled": true
+		},
+		{
+			"key": "exchangeScope",
+			"value": "openid file_transfer trading_partners exchange csio_broker producers csio_polling bookrolls",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "caUsername",
+			"value": "QA_12_carrier_Admin",
+			"enabled": true
+		},
+		{
+			"key": "caPassword",
+			"value": "Password@123",
+			"enabled": true
+		},
+		{
+			"key": "aaUsername",
+			"value": "QA_12_AGENCY_Admin",
+			"enabled": true
+		},
+		{
+			"key": "aaPassword",
+			"value": "Password123",
+			"enabled": true
+		},
+		{
+			"key": "gaUsername",
+			"value": "ivan.autoga",
+			"enabled": true
+		},
+		{
+			"key": "gaPassword",
+			"value": "Icepassword1",
+			"enabled": true
+		},
+		{
+			"key": "ff_apiExpansion",
+			"value": "false",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "carrierUserId",
+			"value": "automation",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "carrierUserIdNoFiles",
+			"value": "leaveempty",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "carrierSysPassword",
+			"value": "Password123",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "asysUser",
+			"value": "qasysuer_y0036",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "IdentityScope",
+			"value": "openid identity file_transfer",
+			"enabled": true
+		},
+		{
+			"key": "BEARERTOKEN",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InJjS0FlTko5N0V2Z0JPaFQ2RlpWWnI1dWNYYyIsImtpZCI6InJjS0FlTko5N0V2Z0JPaFQ2RlpWWnI1dWNYYyJ9.eyJpc3MiOiJodHRwczovL29oLWRldi0yMDozNTgwMCIsImF1ZCI6Imh0dHBzOi8vb2gtZGV2LTIwOjM1ODAwL3Jlc291cmNlcyIsImV4cCI6MTY2NDUzNjA3NywibmJmIjoxNjY0NTMyNDc3LCJjbGllbnRfaWQiOiJGQzdCNTlBOC01OUQ1LTRCN0YtOUE0Mi00NjJBM0Y0NzU4RTYiLCJzY29wZSI6WyJib29rcm9sbHMiLCJmaWxlX3RyYW5zZmVyIiwib3BlbmlkIiwicHJvZHVjZXJzIiwidHJhZGluZ19wYXJ0bmVycyJdLCJzdWIiOiJhNTFmOGVmZC03YWViLTRjMTItYWE2Zi03ZWE4YzMxOGY1MWUiLCJhdXRoX3RpbWUiOjE2NjQ1MzI0NzcsImlkcCI6Imlkc3J2IiwibmFtZSI6IklWQU5TLkFETUlOIiwiZW1haWwiOiJOYXZlZW4uS2F1c2hpa0BhcHBsaWVkc3lzdGVtcy5jb20iLCJmdWxsIG5hbWUiOiJRQSAyMCBJVkFOUyBBRE1JTiIsInJvbGUiOiJHbG9iYWwgQWRtaW4iLCJwcm9kdWN0cyI6WyJleGNoYW5nZSIsIm1hcmtldGFwcGV0aXRlIl0sIm11c3Qgc2lnbiBldWxhIjoiIiwiYWNjb3VudCI6IklWQU4iLCJtZW1iZXIiOlsiQ2FycmllciIsIml2YW5zIl0sImp0aSI6IjA1ZGQ0ZTlhYzI4ZmEyMjU1YzgzYTdkZjIzYTQwODAzIiwiYW1yIjpbInBhc3N3b3JkIl19.txJEoPLY_dLm8zs4eb9htw3gHl1G7IkVHGZSD2tLLIZx4jRESojCkKMlBMQuch_1JDg-chazTQfx24fVG73Ek9XxiIBCXEh1IN2-Vsuo8rJLV1tuD2txqESjEb1msKUM-FOVF8S7UF96-tteuOuN6HV0GqUD5l9kh447o3zzge-KwTDWhPSdHnRri0Ae261nrSkt3a5c7045IkwcBXo_ytWzydeyVoyU434Y1CwpwM4eZn393yCbxqBnORDlzWIOupf9-atXDfskUvu5yrzdrFFDmm8uekV9QmHbOATcN6o1grAxKK4rbGa2_DKbgmrC40BTG0cojD6cDdLiHS0Ucw",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "carrierEmptymailbox",
+			"value": "leaveempty",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "wrongFileID",
+			"value": "00000000-0000-0000-0000-000000000000",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "invalidAccountId",
+			"value": "Ylabh",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "csioScope",
+			"value": "openid file_transfer trading_partners exchange csio_broker producers csio_polling bookrolls",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "hig1CarrierAdmin",
+			"value": "postman.hig1.admin",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "hig1CarrireUser",
+			"value": "postman.hig1.user",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "hig1CarrierSysUser",
+			"value": "postman.hig1.sysuser",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "carrierV3Mailbox",
+			"value": "V3TEST",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "carrierV3MailboxTest",
+			"value": "autocarr.v3test",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "bookrollTypeCommercial",
+			"value": "C",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "bookrollTypePersonal",
+			"value": "P",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "wrongBookrollType",
+			"value": "X",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2023-03-09T07:05:21.302Z",
+	"_postman_exported_using": "Postman/9.31.27"
+}
