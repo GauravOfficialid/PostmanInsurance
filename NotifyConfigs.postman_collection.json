@@ -1,0 +1,811 @@
+{
+	"info": {
+		"_postman_id": "4a912db3-0398-49ec-a11b-11277f00defd",
+		"name": "NotifyConfigs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "21246027"
+	},
+	"item": [
+		{
+			"name": "Any User (here, Carrier Admin)",
+			"item": [
+				{
+					"name": "Any User Gets by Id",
+					"item": [
+						{
+							"name": "returns 200 Ok for valid id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Ok\" , () => {",
+											"  pm.response.to.be.ok",
+											"});",
+											"",
+											"pm.test(\"Body is as expected\", () => {",
+											"    let res = pm.response.json()",
+											"    ",
+											"    pm.expect(res).to.have.property(\"consumerInfoId\")",
+											"    pm.expect(res).to.have.property(\"account\")",
+											"    pm.expect(res).to.have.property(\"userId\")",
+											"    pm.expect(res).to.have.property(\"delay\")",
+											"    pm.expect(res).to.have.property(\"maxFileListSize\")",
+											"    pm.expect(res).to.have.property(\"consumerPackage\")",
+											"    pm.expect(res).to.have.property(\"endpoint\")",
+											"    pm.expect(res).to.have.property(\"headers\")",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{carrierAdminToken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{reqUrl}}/api/notifyconfigs/{{notifyConfigId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "returns 401 Unauthorized for inaccessible id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Unauthorized\" , () => {",
+											"  pm.response.to.be.unauthorized",
+											"});",
+											"",
+											"pm.test(\"body is empty\", () => {",
+											"    pm.expect(pm.response.text().length).to.eql(0)",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{carrierAdminToken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{reqUrl}}/api/notifyconfigs/{{notifyConfigIdUnauthorized}}"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const URL = pm.environment.get(\"tokenUrl\");",
+									"const User = pm.globals.get(\"carrierAdmin\");",
+									"const Pass = pm.globals.get(\"carrierPassword\");",
+									"const BasicToken = pm.environment.get(\"carrierTokenClient\");",
+									"const Scope = pm.globals.get(\"allScope\")",
+									"const postRequest = {",
+									"  url: URL,",
+									"  method: 'POST',",
+									"  timeout: 10,",
+									"  header: {",
+									"    \"Content-Type\": \"application/x-www-raw-urlencoded\",",
+									"    \"Authorization\": \"Basic \" + BasicToken",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded: [",
+									"        {key: \"grant_type\", value: \"password\"},",
+									"        {key:\"username\", value: User},",
+									"        {key:\"Password\", value: Pass},",
+									"        {key:\"scope\", value: Scope}",
+									"    ]}",
+									"};",
+									"pm.environment.unset(\"carrierAdminToken\");",
+									"pm.sendRequest(postRequest, function (err, res) {",
+									"    var responseJson = res.json();",
+									"    console.log(responseJson);",
+									"    pm.environment.set('carrierAdminToken', responseJson['access_token']);",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Any User Posts and fails",
+					"item": [
+						{
+							"name": "returns 401 for inaccessible mailbox",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Unauthorized\" , () => {",
+											"  pm.response.to.be.unauthorized",
+											"});",
+											"",
+											"pm.test(\"body is empty\", () => {",
+											"    pm.expect(pm.response.text().length).to.eql(0)",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{carrierAdminToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"account\": \"noAccount\",\n    \"userId\": \"noUserId\",\n\t\"Endpoint\": \"blah\"\n}"
+								},
+								"url": "{{reqUrl}}/api/notifyconfigs"
+							},
+							"response": []
+						},
+						{
+							"name": "returns 400 BadRequest for missing fields",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Bad Request\" , () => {",
+											"  pm.response.to.be.badRequest",
+											"});",
+											"",
+											"pm.test(\"body is empty\", () => {",
+											"    let res = pm.response.json()",
+											"",
+											"    pm.expect(res.message).to.eql(\"The request is invalid.\")",
+											"    pm.expect(res.modelState).to.have.property(\"notify.Endpoint\")",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{carrierAdminToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"account\": \"noAccount\",\n    \"userId\": \"noUserId\"\n}"
+								},
+								"url": "{{reqUrl}}/api/notifyconfigs"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const URL = pm.environment.get(\"tokenUrl\");",
+									"const User = pm.globals.get(\"carrierAdmin\");",
+									"const Pass = pm.globals.get(\"carrierPassword\");",
+									"const BasicToken = pm.environment.get(\"carrierTokenClient\");",
+									"const Scope = pm.globals.get(\"allScope\")",
+									"const postRequest = {",
+									"  url: URL,",
+									"  method: 'POST',",
+									"  timeout: 10,",
+									"  header: {",
+									"    \"Content-Type\": \"application/x-www-raw-urlencoded\",",
+									"    \"Authorization\": \"Basic \" + BasicToken",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded: [",
+									"        {key: \"grant_type\", value: \"password\"},",
+									"        {key:\"username\", value: User},",
+									"        {key:\"Password\", value: Pass},",
+									"        {key:\"scope\", value: Scope}",
+									"    ]}",
+									"};",
+									"pm.environment.unset(\"carrierAdminToken\");",
+									"pm.sendRequest(postRequest, function (err, res) {",
+									"    var responseJson = res.json();",
+									"    console.log(responseJson);",
+									"    pm.environment.set('carrierAdminToken', responseJson['access_token']);",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Any User Updates by id and fails",
+					"item": [
+						{
+							"name": "returns 404 NotFound for non-existent id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is notFound\" , () => {",
+											"  pm.response.to.be.notFound",
+											"});",
+											"",
+											"pm.test(\"body is empty\", () => {",
+											"    pm.expect(pm.response.text().length).to.eql(0)",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{carrierAdminToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"account\": \"none\",\n    \"userId\": \"notFound\",\n\t\"Endpoint\": \"blah\"\n}"
+								},
+								"url": "{{reqUrl}}/api/notifyconfigs/{{non-existentNotifyConfigId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "returns 500 ApiError for non-JSON content type",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Internal Server Error\" , () => {",
+											"  pm.response.to.have.status(500)",
+											"});",
+											"",
+											"pm.test(\"Reason Phrase is ApiError\" , () => {",
+											"  pm.expect(pm.response.reason()).to.equal('An error occurred within the IVANS Exchange API.')",
+											"});",
+											"",
+											"pm.test(\"body is empty\", () => {",
+											"    pm.expect(pm.response.text().length).to.eql(0)",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{carrierAdminToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "{{reqUrl}}/api/notifyconfigs/1"
+							},
+							"response": []
+						},
+						{
+							"name": "returns 404 NotFound for non-existent id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Not Found\" , () => {",
+											"  pm.response.to.be.notFound",
+											"});",
+											"",
+											"pm.test(\"body is empty\", () => {",
+											"    pm.expect(pm.response.text().length).to.eql(0)",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{carrierAdminToken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{reqUrl}}/api/notifyconfigs/{{non-existentNotifyConfigId}}"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const URL = pm.environment.get(\"tokenUrl\");",
+									"const User = pm.globals.get(\"carrierAdmin\");",
+									"const Pass = pm.globals.get(\"carrierPassword\");",
+									"const BasicToken = pm.environment.get(\"carrierTokenClient\");",
+									"const Scope = pm.globals.get(\"allScope\")",
+									"const postRequest = {",
+									"  url: URL,",
+									"  method: 'POST',",
+									"  timeout: 10,",
+									"  header: {",
+									"    \"Content-Type\": \"application/x-www-raw-urlencoded\",",
+									"    \"Authorization\": \"Basic \" + BasicToken",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded: [",
+									"        {key: \"grant_type\", value: \"password\"},",
+									"        {key:\"username\", value: User},",
+									"        {key:\"Password\", value: Pass},",
+									"        {key:\"scope\", value: Scope}",
+									"    ]}",
+									"};",
+									"pm.environment.unset(\"carrierAdminToken\");",
+									"pm.sendRequest(postRequest, function (err, res) {",
+									"    var responseJson = res.json();",
+									"    console.log(responseJson);",
+									"    pm.environment.set('carrierAdminToken', responseJson['access_token']);",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Any User Creates, Validates, Updates, Deletes",
+					"item": [
+						{
+							"name": "returns 201 Created for autocarr.automation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Created\" , () => {",
+											"  pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"body is as expected\", () => {",
+											"  let res = pm.response.json()",
+											"  let id = res.consumerInfoId",
+											"  ",
+											"  pm.environment.set(\"createdNotifyConfigsId\", id)",
+											"  ",
+											"  delete res.consumerInfoId",
+											"  ",
+											"  pm.expect(res).to.eql({",
+											"    \"account\": \"autocarr\",",
+											"    \"userId\": \"other\",",
+											"    \"consumerPackage\": \"\",",
+											"    \"delay\": 1000,",
+											"    \"endpoint\": \"http://www.google.com\",",
+											"    \"maxFileListSize\": 0,",
+											"    \"headers\": {}",
+											"    ",
+											"  })",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{carrierAdminToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"account\": \"autocarr\",\n\t\"userId\": \"other\",\n\t\"consumerPackage\": \"\",\n\t\"delay\": 1000,\n\t\"endpoint\": \"http://www.google.com\"\n}"
+								},
+								"url": "{{reqUrl}}/api/notifyconfigs"
+							},
+							"response": []
+						},
+						{
+							"name": "returns 200 Ok for created id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is ok\" , () => {",
+											"  pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"body is as expected\" , () => {",
+											"    let res = JSON.parse(pm.response.text())",
+											"    ",
+											"    pm.expect(res).to.eql({",
+											"        \"consumerPackage\": \"\",",
+											"        \"delay\": 1000,",
+											"        \"maxFileListSize\": 0,",
+											"        \"endpoint\": \"http://www.google.com\",",
+											"        \"headers\": {},",
+											"        \"consumerInfoId\": pm.environment.get(\"createdNotifyConfigsId\"),",
+											"        \"account\": \"autocarr\",",
+											"        \"userId\": \"other\"",
+											"    })",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{carrierAdminToken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{reqUrl}}/api/notifyconfigs/{{createdNotifyConfigsId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "returns 400 BadRequest for empty JSON body",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is BadRequest\" , () => {",
+											"  pm.response.to.be.badRequest;",
+											"});",
+											"",
+											"pm.test(\"empty body\", () => {",
+											"    pm.expect(pm.response.text().length).to.eql(0)",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{carrierAdminToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{reqUrl}}/api/notifyconfigs/{{createdNotifyConfigsId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "returns 200 Ok with updated delay time",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is ok\" , () => {",
+											"  pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"body is as expected\" , () => {",
+											"    let res = pm.response.text()",
+											"    ",
+											"    pm.expect(res.length).to.eql(0)",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{carrierAdminToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"consumerPackage\": \"\",\r\n    \"delay\": 2000,\r\n    \"maxFileListSize\": 0,\r\n    \"endpoint\": \"http://www.google.com\",\r\n    \"account\": \"autocarr\",\r\n    \"userid\": \"automation\"\r\n}"
+								},
+								"url": "{{reqUrl}}/api/notifyconfigs/{{createdNotifyConfigsId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "returns 200 Ok with updated delay time",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is ok\" , () => {",
+											"  pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"body is as expected\" , () => {",
+											"    let res = JSON.parse(pm.response.text())",
+											"    ",
+											"    pm.expect(res).to.eql({",
+											"        \"consumerPackage\": \"\",",
+											"        \"delay\": 2000,",
+											"        \"maxFileListSize\": 0,",
+											"        \"endpoint\": \"http://www.google.com\",",
+											"        \"headers\": {},",
+											"        \"consumerInfoId\": pm.environment.get(\"createdNotifyConfigsId\"),",
+											"        \"account\": \"autocarr\",",
+											"        \"userId\": \"other\"",
+											"    })",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{carrierAdminToken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{reqUrl}}/api/notifyconfigs/{{createdNotifyConfigsId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "returns 200 Ok",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Ok\" , () => {",
+											"  pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"expected body\", () => {",
+											"    pm.expect(pm.response.text().length).to.eql(0)",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{carrierAdminToken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{reqUrl}}/api/notifyconfigs/{{createdNotifyConfigsId}}"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const URL = pm.environment.get(\"tokenUrl\");",
+									"const User = pm.globals.get(\"carrierAdmin\");",
+									"const Pass = pm.globals.get(\"carrierPassword\");",
+									"const BasicToken = pm.environment.get(\"carrierTokenClient\");",
+									"const Scope = pm.globals.get(\"allScope\")",
+									"const postRequest = {",
+									"  url: URL,",
+									"  method: 'POST',",
+									"  timeout: 10,",
+									"  header: {",
+									"    \"Content-Type\": \"application/x-www-raw-urlencoded\",",
+									"    \"Authorization\": \"Basic \" + BasicToken",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded: [",
+									"        {key: \"grant_type\", value: \"password\"},",
+									"        {key:\"username\", value: User},",
+									"        {key:\"Password\", value: Pass},",
+									"        {key:\"scope\", value: Scope}",
+									"    ]}",
+									"};",
+									"pm.environment.unset(\"carrierAdminToken\");",
+									"pm.sendRequest(postRequest, function (err, res) {",
+									"    var responseJson = res.json();",
+									"    console.log(responseJson);",
+									"    pm.environment.set('carrierAdminToken', responseJson['access_token']);",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{carrierAdminToken}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}

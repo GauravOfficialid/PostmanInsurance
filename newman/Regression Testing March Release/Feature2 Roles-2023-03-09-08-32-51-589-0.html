@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow-y: scroll;">
+<head>
+  <meta charset="UTF-8">
+  <title>Newman Summary Report</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/default.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
+
+<style>
+code.renderMarkdown table, code.renderMarkdown th, code.renderMarkdown td {
+    border: 1px solid black;
+    width: max-content;
+    padding: .75rem;
+}
+
+.theme-dark {
+    --background-color: #222;
+    --bg-card-deck: #444444;
+    --text-color: #ccd2d8;
+    --tab-border: solid 1px #444;
+    --success: #3c9372;
+    --failure: #c24a3f;
+    --warning: #d28c23;
+    --info: #4083b6;
+    --badge-outline: #3c9372;
+    --badge-bg: #cdd3db;
+    --badge-text: #ccd2d9;
+    --failure-row: #c24a3f;
+    --warning-row: #d28c23;
+    --card-bg: #444;
+    --card-footer: #4f5758;
+    --form-input: #ececb5;
+    --hov-text: #d2dae5;
+    --h4-text: #ccd1d9;
+}
+
+.theme-light {
+    --tab-border: solid 1px #fff;
+    --text-color: #000000;
+    --success: #42a745;
+    --failure: #dc3544;
+    --warning: #f4c10b;
+    --info: #49a1b8;
+    --badge-outline: #040411;
+    --badge-bg: #f8f9fa;
+    --badge-text: #fff;
+    --failure-row: #f5c6cb;
+    --warning-row: #ffeeba;
+    --card-bg: #f7f7f7;
+    --hov-text: #fff;
+    --h4-text: #ffffff;
+}
+
+body {
+  padding-top:30px;
+  background-color: var(--background-color)!important;
+  color: var(--text-color);
+}
+
+#execution-data {
+  padding: 10px;
+  border: var(--tab-border);
+  border-top: none;
+}
+
+.nav-tabs {
+  padding-top: 10px;
+  height: 105px;
+  overflow-y: auto;
+}
+
+body.theme-dark .card-header {
+    background-color: #444;
+}
+
+body.theme-light .card-header {
+    background-color: #f7f7f7;
+}
+
+.card-footer {
+    padding: .75rem 1.25rem;
+    background-color: var(--card-footer);
+}
+
+.card-deck {
+    background-color: var(--bg-card-deck)!important;
+}
+.form-control {
+    background: var(--form-input);
+}
+
+.custom-tab {
+  padding: 10px 15px;
+  margin-right: 0px;
+  height: 47px;
+  width: 69px;
+  text-align: center;
+  border: var(--tab-border);
+  border-bottom: none;
+  cursor:pointer;
+}
+
+body.theme-dark .text-white {
+    color: #ccd2d9!important;
+}
+h4 {
+    color: var(--h4-text);
+}
+
+body.theme-dark h1 {
+    color: #ccd2da;
+}
+
+body.theme-dark .bg-light>td {
+    background: #4f5858!important;
+}
+
+body.theme-dark .hljs {
+    background: #0a0a0ab0!important;
+    color: #8d8787!important;
+}
+
+.bg-info {
+    background-color: var(--info)!important;
+}
+.bg-success {
+    background-color: var(--success)!important;
+}
+
+.alert-success {
+    background-color: var(--success)!important;
+}
+
+.alert-warning {
+    background-color: var(--warning)!important;
+}
+
+.alert-info {
+    background-color: var(--info)!important;
+}
+
+.bg-warning {
+    background-color: var(--warning)!important;
+}
+
+.badge-warning {
+    color: var(--badge-text)!important;
+    background-color: var(--warning)!important;
+}
+
+.table-warning>td {
+    background-color: var(--warning-row);
+}
+
+.alert-danger {
+    background-color: var(--failure)!important;
+}
+
+body.theme-dark .alert-dark {
+    background-color: #636467!important;
+}
+
+body.theme-dark .text-dark {
+    color: #d1dae4!important;
+}
+
+body.theme-dark .badge-light {
+    color: #212529;
+    background-color: #cdd3db;
+}
+
+body.theme-light .badge-light {
+    color: #212529;
+    background-color: #f8f9fa;
+}
+body.theme-light .bg-danger {
+    background-color: var(--failure)!important;
+}
+
+body.theme-dark .bg-danger {
+    background-color: var(--failure)!important;
+}
+
+.table-danger>td {
+    background-color: var(--failure-row);
+}
+
+body.theme-dark .table .thead-light th {
+    background-color: #4f5858!important;
+    border-color: #dee2e6!important;
+    color: #ccd2d8!important;
+}
+
+.itPassed {
+  background: var(--success);
+  color: white;
+}
+.itFailed {
+  background: var(--failure);
+  color: white;
+}
+
+.resultsInfoPass {
+  color: var(--success);
+  padding-top: 4px;
+}
+
+.resultsInfoFail {
+  color: var(--failure);
+  padding-top: 4px;
+}
+
+.badge-outline-success {
+  color: var(--success);
+  border: 1px solid var(--success);
+  background-color: transparent;
+}
+
+.badge-outline {
+  color: var(--badge-outline);
+  border: 1px solid var(--badge-outline);
+  background-color: transparent;
+}
+
+.btn-outline-success {
+    color: var(--success)!important;
+    border-color: var(--success)!important;
+}
+
+.backToTop:hover {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: var(--hov-text)!important;
+}
+
+.btn-outline-success:hover {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: var(--hov-text)!important;
+}
+
+.btn-outline-secondary {
+  background-color: var(--success)!important;
+  color: var(--hov-text)!important;
+}
+
+body.theme-dark .env-heading {
+    color: #ccd2d9!important;
+}
+
+body, html {
+  height:100%;
+}
+
+.card {
+  overflow:hidden;
+}
+
+body.theme-dark .card-body {
+    background-color: #444;
+}
+
+body.theme-light .card-body {
+    background-color: #f7f7f7;
+}
+
+body.theme-dark .card-body .bg-danger {
+    background-color: var(--failure)!important;
+}
+
+body.theme-light .card-body .bg-danger {
+    background-color: var(--failure)!important;
+}
+
+.card-body .rotate {
+  z-index: 8;
+  float: right;
+  height: 100%;
+}
+
+.card-body .rotate i {
+  color: #14141426;
+  position: absolute;
+  left: 0;
+  left: auto;
+  right: -10px;
+  bottom: 0;
+  display: block;
+  -webkit-transform: rotate(-44deg);
+  -moz-transform: rotate(-44deg);
+  -o-transform: rotate(-44deg);
+  -ms-transform: rotate(-44deg);
+  transform: rotate(-44deg);
+}
+
+.dyn-height {
+  max-height:350px;
+  overflow-y:auto;
+}
+
+.nav-pills .nav-link.active {
+  background-color: transparent!important;
+}
+
+.backToTop {
+  display: none;
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  z-index: 99;
+  font-size: 15px;
+  outline: none;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.card-header .fa {
+  transition: .3s transform ease-in-out;
+}
+.card-header .collapsed .fa {
+  transform: rotate(90deg);
+}
+
+.single-line-tabs {
+  padding-top: 10px;
+  height: 60px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 0px;
+  bottom: 4px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  box-shadow: 0 0px 15px #2020203d;
+  background: white;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+input:checked + .slider {
+  background-color: #4083b6;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #4083b6;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(24px);
+  -ms-transform: translateX(24px);
+  transform: translateX(24px);
+  background: white;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+table.dataTable td, table.dataTable tr {
+    vertical-align: middle;
+}
+
+body.theme-dark code {
+    color: #ccd2d8!important;
+}
+
+body.theme-light code {
+    color: #000000!important;
+}
+
+.text-wrap {
+    word-wrap: break-word; 
+    min-width: 600px; 
+    max-width: 600px; 
+    white-space: normal;
+}
+
+</style>
+</head>
+<body class="theme-dark">
+<script>
+    function setTheme(themeName) {
+        localStorage.setItem('theme', themeName);
+        document.body.className = themeName;
+    }
+
+    function toggleTheme() {
+        if (localStorage.getItem('theme') === 'theme-light') {
+            setTheme('theme-dark');
+        } else {
+            setTheme('theme-light');
+        }
+    }
+</script>
+  <div class="container">
+        <div class="container">
+            <label>Light</label>
+            <label id="switch" class="switch">
+                <input type="checkbox" onchange="toggleTheme()" id="slider">
+                <span class="slider round"></span>
+            </label>
+            <label>Dark</label>
+        </div>
+        <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-pills mb-3 nav-justified" id="pills-tab" role="tablist">
+            <li class="nav-item bg-info active" data-toggle="tooltip" title="Click to view the Summary">
+                <a class="nav-link text-white" id="pills-summary-tab" data-toggle="pill" href="#pills-summary" role="tab" aria-controls="pills-summary" aria-selected="true">Summary</a>
+            </li>
+            <li class="nav-item bg-success" data-toggle="tooltip" title="Click to view the Requests">
+                <a class="nav-link text-white" id="pills-requests-tab" data-toggle="pill" href="#pills-requests" role="tab" aria-controls="pills-requests" aria-selected="false">Total Requests <span class="badge badge-light">6</span></a>
+            </li>
+            <li class="nav-item bg-danger" data-toggle="tooltip" title="Click to view the Failed Tests">
+                <a class="nav-link text-white" id="pills-failed-tab" data-toggle="pill" href="#pills-failed" role="tab" aria-controls="pills-failed" aria-selected="false">Failed Tests <span class="badge badge-light">0</span></a>
+            </li>
+            <li class="nav-item bg-warning" data-toggle="tooltip" title="Click to view the Skipped Tests">
+                <a class="nav-link text-white" id="pills-skipped-tab" data-toggle="pill" href="#pills-skipped" role="tab" aria-controls="pills-skipped" aria-selected="false">Skipped Tests <span class="badge badge-light">0</span></a>
+            </li>
+            </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-summary" role="tabcard" aria-labelledby="pills-summary-tab">
+<div class="row">
+  <div class="col-md-9 col-lg-12 main">
+   <h1 class="display-2 text-center">Newman Run Dashboard</h1>
+   <h5 class="text-center">Thursday, 09 March 2023 14:02:51</h5>
+   <div class="row">
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-success">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-retweet fa-5x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Iterations</h6>
+       <h1 class="display-1">1</h1>
+      </div>
+     </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-danger">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-list fa-4x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Assertions</h6>
+       <h1 class="display-1">3</h1>
+      </div>
+     </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-info">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-plus-circle fa-5x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Failed Tests</h6>
+       <h1 class="display-1">0</h1>
+      </div>
+     </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-warning">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-share fa-5x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Skipped Tests</h6>
+       <h1 class="display-1">0</h1>
+      </div>
+     </div>
+    </div>
+   </div>
+   <hr>
+    <div class="row">
+    <div class="col">
+        <div class="row">
+        <div class="col-sm-12 mb-3">
+            <div class="card border-info">
+                <div class="card-body">
+                <h5 class="card-title text-uppercase text-white text-center bg-info">File Information</h5>
+                <span><i class="fas fa-file-code"></i></span><strong> Collection:</strong> Roles<br>
+                
+                <span><i class="fas fa-file-code"></i></span><strong> Environment:</strong> Feature2<br>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-12 mb-3">
+            <div class="card border-info">
+                <div class="card-body">
+                <h5 class="card-title text-uppercase text-white text-center bg-info">Timings and Data</h5>
+                <span><i class="fas fa-stopwatch"></i></span><strong> Total run duration:</strong> 3.9s<br>
+                <span><i class="fas fa-database"></i></span><strong> Total data received:</strong> 25.51KB<br>
+                <span><i class="fas fa-stopwatch"></i></span><strong> Average response time:</strong> 601ms<br>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-12 mb-3">
+            <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-inverse">
+                    <tr class="text-center">
+                        <th class="text-uppercase">Summary Item</th>
+                        <th class="text-uppercase">Total</th>
+                        <th class="text-uppercase">Failed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Requests</td>
+                        <td class="text-center">6</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                        <td>Prerequest Scripts</td>
+                        <td class="text-center">3</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                        <td>Test Scripts</td>
+                        <td class="text-center">6</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr class="">
+                        <td>Assertions</td>
+                        <td class="text-center">3</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr class="">
+                        <td>Skipped Tests</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">-</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+    <hr>
+   </div>
+   </div>
+  </div>
+ </div>
+        </div>
+            <div class="tab-pane fade" id="pills-failed" role="tabcard" aria-labelledby="pills-failed-tab">
+                <button id="topOfFailuresScreen" class="btn btn-outline-success btn-sm backToTop" onclick="topFunction()">Go To Top</button>
+
+                <div class="alert alert-success text-uppercase text-center">
+                     <br><br><h1 class="text-center">There are no failed tests <span><i class="far fa-thumbs-up"></i></span></h1><br><br>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pills-skipped" role="tabcard" aria-labelledby="pills-skipped-tab">
+                <button id="topOfSkippedScreen" class="btn btn-outline-success btn-sm backToTop" onclick="topFunction()">Go To Top</button>
+
+                <div class="alert alert-success text-uppercase text-center">
+                    <br><br><h1 class="text-center">There are no skipped tests <span><i class="far fa-thumbs-up"></i></span></h1><br><br>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-requests" role="tabcard" aria-labelledby="pills-requests-tab">
+
+            <button id="topOfRequestsScreen" class="btn btn-outline-success btn-sm backToTop" onclick="topFunction()">Go To Top</button>
+
+            <div class="btn-group float-right" role="group" aria-label="Button Group">
+                <button id="openAll" class="btn btn-outline-success btn-sm float-right" style="text-align: center; width: 140px;">Expand Folders</button>
+                <button id="openAllRequests" class="btn btn-outline-success btn-sm float-right" style="text-align: center; width: 140px;">Expand Requests</button>
+            </div>
+
+    <div class="text-uppercase" id="execution-menu">
+        <h5>1 Iteration available to view</h5>
+        
+        <nav class="table-responsive">
+        <ul class="nav single-line-tabs" id="iterationList">
+        </ul>
+        </nav>
+    </div>
+    <h6 class="text-uppercase text-muted" id="iterationSelected" style="padding-top: 10px;"></h6>
+	<div class="tab-content" id="execution-data">
+        <div class="alert alert-dark text-uppercase text-center iteration-0">
+        <a data-toggle="collapse" href="#" data-target="#folder-collapse-fc443255-605e-4cc4-a3d3-5da54886da29-iteration-0" aria-expanded="false" aria-controls="collapse" id="folder-fc443255-605e-4cc4-a3d3-5da54886da29-iteration-0" class="collapsed text-dark z-block">
+        <i class="fas fa-info-circle float-left resultsInfoPass" ></i>
+            Any User (here, Ivans User) - 3 Requests in the folder<i class="float-lg-right fa fa-chevron-down" style="padding-top: 5px;"></i>
+        </a>
+        </div>
+        <div id="folder-collapse-fc443255-605e-4cc4-a3d3-5da54886da29-iteration-0" class="collapse" aria-labelledby="folder-fc443255-605e-4cc4-a3d3-5da54886da29">
+            <div id="folder-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4" class="card-deck iteration-0">
+            <div class="row iteration-0">
+                <div class="col-sm-12 mb-3 iteration-0">
+                <div class="card iteration-0">
+                    <div class="card-header  bg-success iteration-0">
+                        <a data-toggle="collapse" href="#" data-target="#collapse-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4" aria-expanded="false" aria-controls="collapse" id="requests-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4" class="collapsed text-white z-block">
+                    Iteration: 1 - return 200 Ok with roles details <i class="float-lg-right fa fa-chevron-down" style="padding-top: 5px;"></i>
+                </a>
+                    </div>
+                    <div id="collapse-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4" class="collapse" aria-labelledby="requests-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request Method:</strong> <span class="badge-outline-success badge badge-success"> GET</span><br>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request URL:</strong> <a href="https://oh-dev-12:36810/v1/roles" target="_blank">https://oh-dev-12:36810/v1/roles</a><br>
+                                    </div>
+                                </div>
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Response Code:</strong> <span class="float-right badge-outline badge badge-success"> 200 - OK</span><br>
+                                    <span><i class="fas fa-stopwatch"></i></span><strong> Mean time per request:</strong> <span class="float-right badge-outline badge badge-success"> 1154ms</span><br>
+                                    <span><i class="fas fa-database"></i></span><strong> Mean size per request:</strong> <span class="float-right badge-outline badge badge-success"> 835B</span><br>
+                                    <hr>
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Test Pass Percentage</h5>
+                                    <div>
+                                        <div class="progress" style="height: 40px;">
+                                            <div class="progress-bar  bg-success" style="width: 100%" role="progressbar">
+                                            <h5 style="padding-top:5px;"><strong>100 %</strong></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-uppercase text-white text-center bg-info">Request Headers</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                            <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap">Authorization</td>
+                                                        <td class="text-wrap">Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InJjS0FlTko5N0V2Z0JPaFQ2RlpWWnI1dWNYYyIsImtpZCI6InJjS0FlTko5N0V2Z0JPaFQ2RlpWWnI1dWNYYyJ9.eyJpc3MiOiJodHRwczovL29oLWRldi0xMjozNTgwMCIsImF1ZCI6Imh0dHBzOi8vb2gtZGV2LTEyOjM1ODAwL3Jlc291cmNlcyIsImV4cCI6MTY3ODM1NDM1NywibmJmIjoxNjc4MzUwNzU3LCJjbGllbnRfaWQiOiJDMEU5MUJDOS1DODdELTQ1MzktOTJBQy0zRkUyQURDODRGQkUiLCJzY29wZSI6WyJmaWxlX3RyYW5zZmVyIiwiaWRlbnRpdHkiLCJvcGVuaWQiXSwic3ViIjoiMWQyYTVkOTYtNWZkYS00MjU1LTljMDYtOWNjNjFjZWI1ZTNkIiwiYXV0aF90aW1lIjoxNjc4MzUwNzU3LCJpZHAiOiJpZHNydiIsIm5hbWUiOiJwb3N0bWFuLml2YW4udXNlciIsImVtYWlsIjoiaXZhbnNxZUBpdmFuc2luc3VyYW5jZS5jb20iLCJmdWxsIG5hbWUiOiJBdXRvbWF0aW9uIEl2YW4gVXNlciIsInJvbGUiOiJJdmFucyBVc2VyIiwicHJvZHVjdHMiOlsiZXhjaGFuZ2UiLCJtYXJrZXRhcHBldGl0ZSJdLCJtdXN0IHNpZ24gZXVsYSI6IiIsImFjY291bnQiOlsiQUdOVCIsIkJXQ1MiLCJJVkFOIiwiSVdFQiJdLCJtZW1iZXIiOlsiQ2FycmllciIsIml2YW5zIl0sInBlcm1pc3Npb25zIjpbImFkZDphZ2VuY2llcyIsImFkZDp0cmFkaW5nX3BhcnRuZXJzIiwiYWRtaW46YWRtaW4iLCJhZG1pbjpjb21wYW55X3JvbGx1cCIsImRpc2FibGU6dXNlcnMiLCJlZGl0OmFnZW5jaWVzIiwiZWRpdDphcGlfY2xpZW50cyIsImVkaXQ6YXBpX3Byb2ZpbGVzIiwiZWRpdDpjYXJib25fY29weSIsImVkaXQ6Y2FycmllcnMiLCJlZGl0OmNvbm5lY3Rpb25zIiwiZWRpdDpmZWVkYmFjayIsImVkaXQ6ZmlsZXNfbWV0YWRhdGFfY2FuY2VsIiwiZWRpdDpmaWxlc19tZXRhZGF0YV9ob2xkIiwiZWRpdDpmaWxlc19tZXRhZGF0YV9yZXNlbmQiLCJlZGl0OmZpbGVzX21ldGFkYXRhX3Jlc2VuZF90cmFuc2FjdGlvbiIsImVkaXQ6bWFpbGJveGVzIiwiZWRpdDptYWlsYm94ZXNfbWZhIiwiZWRpdDpwcm9kdWNlcnMiLCJlZGl0OnByb2R1Y3RzIiwiZWRpdDpyZXBvcnRzX3NjaGVkdWxlcyIsImVkaXQ6dXNlcl9wZXJtaXNzaW9ucyIsImVkaXQ6dXNlcnMiLCJtYW5hZ2U6YWdlbmNpZXMiLCJtYW5hZ2U6YXBpX2NsaWVudHMiLCJtYW5hZ2U6Ym9va3JvbGxzIiwibWFuYWdlOmNhcmJvbl9jb3B5IiwibWFuYWdlOmNhcnJpZXJfYWN0aXZpdHlfb3ZlcnJpZGVzIiwibWFuYWdlOmNhcnJpZXJzIiwibWFuYWdlOmNvbm5lY3Rpb25zIiwibWFuYWdlOmNvbnRhY3RzIiwibWFuYWdlOmV1bGFfc2lnbmF0dXJlcyIsIm1hbmFnZTpmaWxlcyIsIm1hbmFnZTpmaWxlc19tZXRhZGF0YSIsIm1hbmFnZTpncm91cHMiLCJtYW5hZ2U6bWFpbGJveGVzIiwibWFuYWdlOm5ld3MiLCJtYW5hZ2U6cHJvZHVjdHMiLCJtYW5hZ2U6cmVwb3J0c19zY2hlZHVsZXMiLCJtYW5hZ2U6c3lzdGVtX2V2ZW50cyIsIm1hbmFnZTpzeXN0ZW1fdXNlcnMiLCJtYW5hZ2U6dHByX3NldHMiLCJtYW5hZ2U6dHJhZGluZ19wYXJ0bmVycyIsIm1hbmFnZTp1c2VycyIsIm1hbmFnZTp2ZW5kb3JfcHJvZHVjdHMiLCJyZW1vdmU6YWdlbmNpZXMiLCJyZW1vdmU6dHJhZGluZ19wYXJ0bmVycyIsInZpZXc6YWdlbmNpZXMiLCJ2aWV3OmFnZW5jeV9ldWxhcyIsInZpZXc6YXBpX2NsaWVudHMiLCJ2aWV3OmFwaV9wcm9maWxlcyIsInZpZXc6Ym9va3JvbGxzIiwidmlldzpjYXJib25fY29weSIsInZpZXc6Y2FycmllcnMiLCJ2aWV3OmNvbm5lY3Rpb25zIiwidmlldzpkYXNoYm9hcmQiLCJ2aWV3OmZlZWRiYWNrIiwidmlldzpmaWxlcyIsInZpZXc6ZmlsZXNfbWV0YWRhdGEiLCJ2aWV3Om1haWxib3hfc2Vzc2lvbnMiLCJ2aWV3Om1haWxib3hlcyIsInZpZXc6bWFya2V0X2FwcGV0aXRlIiwidmlldzpwcm9kdWNlcnMiLCJ2aWV3OnJlcG9ydHMiLCJ2aWV3OnJlcG9ydHNfc2NoZWR1bGVzIiwidmlldzp0cmFkaW5nX3BhcnRuZXJzIiwidmlldzp2ZW5kb3JzIl0sImp0aSI6Ijk2YmFlYjhhMjU4NDRmMzkwOWIyNThhOTRhZDI3YWM1IiwiYW1yIjpbInBhc3N3b3JkIl19.nmlOSst6WnU8dd1KQY8pOrwZc3cZi2zLylKjgmyIuO7U7ny97o3vO3wgmgkrov42AGvqNXoOR5yDmmbhakFm8ThilRD331dF_xAPTbaGAWR9HanG22AP3OoFKUxym9wTjsmyByH0pgwbHn17k7twlsolnXYHfSGMEBx4IkL3xMb-19XSq5KiVYBJXQ7Bcws5mZcxdpcagXl4bX7nquHfIvvjFbkAuEdjlMpVbftkWqTRNSj55ne8G89lFbk75MW4F93SFxnnP4HDgKYdSIALeOZPBskdRdS1MNyWUf9viyW9rRHkpyRS4qqdpEkgOBBHrcbdyyiUOXHdO6yCTOXgwQ</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">User-Agent</td>
+                                                        <td class="text-wrap">PostmanRuntime/7.29.0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept</td>
+                                                        <td class="text-wrap">*/*</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cache-Control</td>
+                                                        <td class="text-wrap">no-cache</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Postman-Token</td>
+                                                        <td class="text-wrap">191bbd0d-5101-4b9b-9498-7dd05e78d188</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Host</td>
+                                                        <td class="text-wrap">oh-dev-12:36810</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept-Encoding</td>
+                                                        <td class="text-wrap">gzip, deflate, br</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Connection</td>
+                                                        <td class="text-wrap">keep-alive</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Headers</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                        <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Length</td>
+                                                    <td class="text-wrap">835</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Type</td>
+                                                    <td class="text-wrap">application/json; charset&#x3D;utf-8</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Server</td>
+                                                    <td class="text-wrap">Microsoft-IIS/10.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Strict-Transport-Security</td>
+                                                    <td class="text-wrap">max-age&#x3D;2592000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">api-supported-versions</td>
+                                                    <td class="text-wrap">1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Rate-Limit-Limit</td>
+                                                    <td class="text-wrap">1s</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Rate-Limit-Remaining</td>
+                                                    <td class="text-wrap">199</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Rate-Limit-Reset</td>
+                                                    <td class="text-wrap">2023-03-09T08:32:39.3297685Z</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Powered-By</td>
+                                                    <td class="text-wrap">ASP.NET</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Date</td>
+                                                    <td class="text-wrap">Thu, 09 Mar 2023 08:32:38 GMT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Body</h5>
+                                        <div class="dyn-height">
+                                                <pre><code id="copyText-f7880f47-5075-45aa-84b2-782ebb37b2df" class="prettyPrint">[{&quot;id&quot;:&quot;0ec144c6-c761-4c07-b7a1-eb7516d847c9&quot;,&quot;name&quot;:&quot;Agency Admin&quot;},{&quot;id&quot;:&quot;7e4d4f01-cdf8-4b5d-8659-2f3c668d1d62&quot;,&quot;name&quot;:&quot;Agency User&quot;},{&quot;id&quot;:&quot;e4256d39-73b5-4531-a5a2-57dd07274ec0&quot;,&quot;name&quot;:&quot;Authenticated User&quot;},{&quot;id&quot;:&quot;c6d5d698-f4fa-4f77-8c4c-0493a516d2e0&quot;,&quot;name&quot;:&quot;Carrier Admin&quot;},{&quot;id&quot;:&quot;89e9b7cf-aade-4a7f-b311-312fb75390b9&quot;,&quot;name&quot;:&quot;Carrier User&quot;},{&quot;id&quot;:&quot;8a55211e-f136-441f-a42c-441b0a29e90f&quot;,&quot;name&quot;:&quot;Company Admin&quot;},{&quot;id&quot;:&quot;0704624c-6105-42c1-b185-00d44cebea56&quot;,&quot;name&quot;:&quot;File Transfer User&quot;},{&quot;id&quot;:&quot;512b8095-975f-4ad1-a340-885999f4004b&quot;,&quot;name&quot;:&quot;Global Admin&quot;},{&quot;id&quot;:&quot;84b795de-a311-492b-83cc-b0b3149c26cc&quot;,&quot;name&quot;:&quot;Ivans User&quot;},{&quot;id&quot;:&quot;232a736c-bad3-4e7d-a50e-b49fa3d5f459&quot;,&quot;name&quot;:&quot;Market Appetite User&quot;},{&quot;id&quot;:&quot;9abb6d6c-b082-4fb3-91f5-946435e5f68a&quot;,&quot;name&quot;:&quot;Vendor Admin&quot;},{&quot;id&quot;:&quot;feb0d0e9-df42-4ebc-a35f-8c7cb36c0b1c&quot;,&quot;name&quot;:&quot;Vendor User&quot;}]</code></pre>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyText-f7880f47-5075-45aa-84b2-782ebb37b2df">Copy to Clipboard</button>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card border-info">
+                                <div class="card-body">
+                                <h5 class="card-title text-uppercase text-white text-center bg-info">Test Information</h5>
+                                    <div class="table-responsive text-nowrap">
+                                        <table class="datatable table table-hover">
+                                        <thead><tr class="text-center"><th>Name</th><th>Passed</th><th>Failed</th><th>Skipped</th></tr></thead>
+                                            <tbody>
+                                                <tr >
+                                                    <td >Status code is 200 OK</td>
+                                                    <td class="text-center bg-success">2</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="bg-light">
+                                                    <td><strong>Total</strong></td>
+                                                    <td class="text-center">2</td>
+                                                    <td class="text-center">0</td>
+                                                    <td class="text-center">0</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="row d-none">
+                                    <div class="col-sm-12 mb-3">
+                                        <div class="card-deck">
+                                        <div class="card border-danger" style="width: 50rem;">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-uppercase text-white text-center bg-danger">Test Failure</h5>
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                    <thead><tr class="text-nowrap"><th>Test Name</th><th>Assertion Error</th></tr></thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div id="folder-9620b002-024a-4482-a517-1a303428b81f" class="card-deck iteration-0">
+            <div class="row iteration-0">
+                <div class="col-sm-12 mb-3 iteration-0">
+                <div class="card iteration-0">
+                    <div class="card-header  bg-success iteration-0">
+                        <a data-toggle="collapse" href="#" data-target="#collapse-9620b002-024a-4482-a517-1a303428b81f" aria-expanded="false" aria-controls="collapse" id="requests-9620b002-024a-4482-a517-1a303428b81f" class="collapsed text-white z-block">
+                    Iteration: 1 - return 200 Ok with permission details <i class="float-lg-right fa fa-chevron-down" style="padding-top: 5px;"></i>
+                </a>
+                    </div>
+                    <div id="collapse-9620b002-024a-4482-a517-1a303428b81f" class="collapse" aria-labelledby="requests-9620b002-024a-4482-a517-1a303428b81f">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request Method:</strong> <span class="badge-outline-success badge badge-success"> GET</span><br>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request URL:</strong> <a href="https://oh-dev-12:36810/v1/permissions" target="_blank">https://oh-dev-12:36810/v1/permissions</a><br>
+                                    </div>
+                                </div>
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Response Code:</strong> <span class="float-right badge-outline badge badge-success"> 200 - OK</span><br>
+                                    <span><i class="fas fa-stopwatch"></i></span><strong> Mean time per request:</strong> <span class="float-right badge-outline badge badge-success"> 297ms</span><br>
+                                    <span><i class="fas fa-database"></i></span><strong> Mean size per request:</strong> <span class="float-right badge-outline badge badge-success"> 11.4KB</span><br>
+                                    <hr>
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Test Pass Percentage</h5>
+                                    <div>
+                                        <div class="progress" style="height: 40px;">
+                                            <div class="progress-bar  bg-success" style="width: 100%" role="progressbar">
+                                            <h5 style="padding-top:5px;"><strong>100 %</strong></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-uppercase text-white text-center bg-info">Request Headers</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                            <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap">Authorization</td>
+                                                        <td class="text-wrap">Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InJjS0FlTko5N0V2Z0JPaFQ2RlpWWnI1dWNYYyIsImtpZCI6InJjS0FlTko5N0V2Z0JPaFQ2RlpWWnI1dWNYYyJ9.eyJpc3MiOiJodHRwczovL29oLWRldi0xMjozNTgwMCIsImF1ZCI6Imh0dHBzOi8vb2gtZGV2LTEyOjM1ODAwL3Jlc291cmNlcyIsImV4cCI6MTY3ODM1NDM1OCwibmJmIjoxNjc4MzUwNzU4LCJjbGllbnRfaWQiOiJDMEU5MUJDOS1DODdELTQ1MzktOTJBQy0zRkUyQURDODRGQkUiLCJzY29wZSI6WyJmaWxlX3RyYW5zZmVyIiwiaWRlbnRpdHkiLCJvcGVuaWQiXSwic3ViIjoiMWQyYTVkOTYtNWZkYS00MjU1LTljMDYtOWNjNjFjZWI1ZTNkIiwiYXV0aF90aW1lIjoxNjc4MzUwNzU4LCJpZHAiOiJpZHNydiIsIm5hbWUiOiJwb3N0bWFuLml2YW4udXNlciIsImVtYWlsIjoiaXZhbnNxZUBpdmFuc2luc3VyYW5jZS5jb20iLCJmdWxsIG5hbWUiOiJBdXRvbWF0aW9uIEl2YW4gVXNlciIsInJvbGUiOiJJdmFucyBVc2VyIiwicHJvZHVjdHMiOlsiZXhjaGFuZ2UiLCJtYXJrZXRhcHBldGl0ZSJdLCJtdXN0IHNpZ24gZXVsYSI6IiIsImFjY291bnQiOlsiQUdOVCIsIkJXQ1MiLCJJVkFOIiwiSVdFQiJdLCJtZW1iZXIiOlsiQ2FycmllciIsIml2YW5zIl0sInBlcm1pc3Npb25zIjpbImFkZDphZ2VuY2llcyIsImFkZDp0cmFkaW5nX3BhcnRuZXJzIiwiYWRtaW46YWRtaW4iLCJhZG1pbjpjb21wYW55X3JvbGx1cCIsImRpc2FibGU6dXNlcnMiLCJlZGl0OmFnZW5jaWVzIiwiZWRpdDphcGlfY2xpZW50cyIsImVkaXQ6YXBpX3Byb2ZpbGVzIiwiZWRpdDpjYXJib25fY29weSIsImVkaXQ6Y2FycmllcnMiLCJlZGl0OmNvbm5lY3Rpb25zIiwiZWRpdDpmZWVkYmFjayIsImVkaXQ6ZmlsZXNfbWV0YWRhdGFfY2FuY2VsIiwiZWRpdDpmaWxlc19tZXRhZGF0YV9ob2xkIiwiZWRpdDpmaWxlc19tZXRhZGF0YV9yZXNlbmQiLCJlZGl0OmZpbGVzX21ldGFkYXRhX3Jlc2VuZF90cmFuc2FjdGlvbiIsImVkaXQ6bWFpbGJveGVzIiwiZWRpdDptYWlsYm94ZXNfbWZhIiwiZWRpdDpwcm9kdWNlcnMiLCJlZGl0OnByb2R1Y3RzIiwiZWRpdDpyZXBvcnRzX3NjaGVkdWxlcyIsImVkaXQ6dXNlcl9wZXJtaXNzaW9ucyIsImVkaXQ6dXNlcnMiLCJtYW5hZ2U6YWdlbmNpZXMiLCJtYW5hZ2U6YXBpX2NsaWVudHMiLCJtYW5hZ2U6Ym9va3JvbGxzIiwibWFuYWdlOmNhcmJvbl9jb3B5IiwibWFuYWdlOmNhcnJpZXJfYWN0aXZpdHlfb3ZlcnJpZGVzIiwibWFuYWdlOmNhcnJpZXJzIiwibWFuYWdlOmNvbm5lY3Rpb25zIiwibWFuYWdlOmNvbnRhY3RzIiwibWFuYWdlOmV1bGFfc2lnbmF0dXJlcyIsIm1hbmFnZTpmaWxlcyIsIm1hbmFnZTpmaWxlc19tZXRhZGF0YSIsIm1hbmFnZTpncm91cHMiLCJtYW5hZ2U6bWFpbGJveGVzIiwibWFuYWdlOm5ld3MiLCJtYW5hZ2U6cHJvZHVjdHMiLCJtYW5hZ2U6cmVwb3J0c19zY2hlZHVsZXMiLCJtYW5hZ2U6c3lzdGVtX2V2ZW50cyIsIm1hbmFnZTpzeXN0ZW1fdXNlcnMiLCJtYW5hZ2U6dHByX3NldHMiLCJtYW5hZ2U6dHJhZGluZ19wYXJ0bmVycyIsIm1hbmFnZTp1c2VycyIsIm1hbmFnZTp2ZW5kb3JfcHJvZHVjdHMiLCJyZW1vdmU6YWdlbmNpZXMiLCJyZW1vdmU6dHJhZGluZ19wYXJ0bmVycyIsInZpZXc6YWdlbmNpZXMiLCJ2aWV3OmFnZW5jeV9ldWxhcyIsInZpZXc6YXBpX2NsaWVudHMiLCJ2aWV3OmFwaV9wcm9maWxlcyIsInZpZXc6Ym9va3JvbGxzIiwidmlldzpjYXJib25fY29weSIsInZpZXc6Y2FycmllcnMiLCJ2aWV3OmNvbm5lY3Rpb25zIiwidmlldzpkYXNoYm9hcmQiLCJ2aWV3OmZlZWRiYWNrIiwidmlldzpmaWxlcyIsInZpZXc6ZmlsZXNfbWV0YWRhdGEiLCJ2aWV3Om1haWxib3hfc2Vzc2lvbnMiLCJ2aWV3Om1haWxib3hlcyIsInZpZXc6bWFya2V0X2FwcGV0aXRlIiwidmlldzpwcm9kdWNlcnMiLCJ2aWV3OnJlcG9ydHMiLCJ2aWV3OnJlcG9ydHNfc2NoZWR1bGVzIiwidmlldzp0cmFkaW5nX3BhcnRuZXJzIiwidmlldzp2ZW5kb3JzIl0sImp0aSI6ImI4YWJjOTcxYjcxNmM0YTg3MjNjNDdkMGE4MTdkZTE1IiwiYW1yIjpbInBhc3N3b3JkIl19.AGqwOdEQzvxEV42ZdrhFixTqSiWO5iyq3_xV_KDqx0hmK4yYgqJ5Iw5kvnWJWT4hNxY0gKIua76QNacUfcPS25uLHy4ddOtVyXO3ZFxA6rsk3iyEl5CPIlNO826f2ViGKNKlwvi1jTZ6SuIKEQS4c79GPZZvq43AwvJgx-9N12Huqd1Cyij1KAm89LiBdS5o0ia1ZEvAtMzCuQe5a5NFjfgeI88yeap6Joji_i0C3Sh023e-cGENoD4sXxcSNAhY9wJ8XfE0iTCOcTnIyv_LBx90XbBlJ-7HkZaWU_bPrliw_t625Mx0UGFXQ_teaKDmDl14FFtTSJEagnvKYF3kSA</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">User-Agent</td>
+                                                        <td class="text-wrap">PostmanRuntime/7.29.0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept</td>
+                                                        <td class="text-wrap">*/*</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cache-Control</td>
+                                                        <td class="text-wrap">no-cache</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Postman-Token</td>
+                                                        <td class="text-wrap">b3d47b6b-b00e-4be3-89f3-69d141512c0a</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Host</td>
+                                                        <td class="text-wrap">oh-dev-12:36810</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept-Encoding</td>
+                                                        <td class="text-wrap">gzip, deflate, br</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Connection</td>
+                                                        <td class="text-wrap">keep-alive</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Headers</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                        <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Length</td>
+                                                    <td class="text-wrap">11674</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Type</td>
+                                                    <td class="text-wrap">application/json; charset&#x3D;utf-8</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Server</td>
+                                                    <td class="text-wrap">Microsoft-IIS/10.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Strict-Transport-Security</td>
+                                                    <td class="text-wrap">max-age&#x3D;2592000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">api-supported-versions</td>
+                                                    <td class="text-wrap">1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Rate-Limit-Limit</td>
+                                                    <td class="text-wrap">1s</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Rate-Limit-Remaining</td>
+                                                    <td class="text-wrap">199</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Rate-Limit-Reset</td>
+                                                    <td class="text-wrap">2023-03-09T08:32:40.0509843Z</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Powered-By</td>
+                                                    <td class="text-wrap">ASP.NET</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Date</td>
+                                                    <td class="text-wrap">Thu, 09 Mar 2023 08:32:38 GMT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Body</h5>
+                                        <div class="dyn-height">
+                                                <pre><code id="copyText-bac76ed9-b69c-4332-a7d3-bd24d17b8e43" class="prettyPrint">[{&quot;id&quot;:&quot;b21f7ac7-64aa-40c3-9970-c8454320e296&quot;,&quot;name&quot;:&quot;view:agency_eulas&quot;,&quot;displayName&quot;:&quot;Agency EULA View&quot;,&quot;category&quot;:&quot;Modifying Agencies/Partnerships&quot;},{&quot;id&quot;:&quot;5afb6467-dd74-47bb-97e1-aac9779dcce1&quot;,&quot;name&quot;:&quot;manage:news&quot;,&quot;displayName&quot;:&quot;News Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;4d745441-20ee-4217-af45-ad058af147a2&quot;,&quot;name&quot;:&quot;view:api_clients&quot;,&quot;displayName&quot;:&quot;API Clients View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;fd05509a-1390-4d3f-868f-576d48f44532&quot;,&quot;name&quot;:&quot;edit:api_clients&quot;,&quot;displayName&quot;:&quot;API Clients Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;75f0f6c4-9145-4dd7-bcbb-9fd0e2b27b50&quot;,&quot;name&quot;:&quot;manage:api_clients&quot;,&quot;displayName&quot;:&quot;API Clients Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;8c134a3e-4c94-4b50-b776-97348c0d0689&quot;,&quot;name&quot;:&quot;view:api_profiles&quot;,&quot;displayName&quot;:&quot;API Profiles View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;8cbf7f5e-cd3d-46f1-9fb7-ab0335b5d6fd&quot;,&quot;name&quot;:&quot;edit:api_profiles&quot;,&quot;displayName&quot;:&quot;API Profiles Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;e780dc70-2518-46be-80f5-7f9c22141712&quot;,&quot;name&quot;:&quot;edit:bookrolls&quot;,&quot;displayName&quot;:&quot;Bookrolls Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;c5642dea-afef-4e23-a638-fc0095d9710d&quot;,&quot;name&quot;:&quot;view:bookrolls&quot;,&quot;displayName&quot;:&quot;Bookrolls View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;a643856b-bb27-44f6-ba54-a90f7c9fe60e&quot;,&quot;name&quot;:&quot;maintain:carriers&quot;,&quot;displayName&quot;:&quot;Carriers Bookroll Access Maintain&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;32e8f477-f2a5-4f03-821c-4f9cd0b3581c&quot;,&quot;name&quot;:&quot;manage:tpr_sets&quot;,&quot;displayName&quot;:&quot;TPR Sets Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;64c447b7-1114-480f-a924-1f1899887549&quot;,&quot;name&quot;:&quot;maintain:tpr_sets&quot;,&quot;displayName&quot;:&quot;TPR Sets Maintain&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;a2a32ae6-4def-4d33-b67d-5bd386f1a784&quot;,&quot;name&quot;:&quot;view:market_appetite&quot;,&quot;displayName&quot;:&quot;Market Appetite View&quot;,&quot;category&quot;:&quot;Ivans Marketplace&quot;},{&quot;id&quot;:&quot;43de0cea-9f49-4d6b-908f-2084a7fd0403&quot;,&quot;name&quot;:&quot;edit:products&quot;,&quot;displayName&quot;:&quot;Products Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;6dc4bb7d-a108-449e-8b18-5b77c632bca6&quot;,&quot;name&quot;:&quot;add:products&quot;,&quot;displayName&quot;:&quot;Products Add&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;bb5c78c3-74ba-4134-b80e-476237429337&quot;,&quot;name&quot;:&quot;delete:products&quot;,&quot;displayName&quot;:&quot;Products Delete&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;1e120843-44ca-4525-8096-0abeeb29c93c&quot;,&quot;name&quot;:&quot;manage:vendor_products&quot;,&quot;displayName&quot;:&quot;Vendor Products Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;c0bba162-fef5-4194-9557-f68d3c7a544e&quot;,&quot;name&quot;:&quot;view:vendors&quot;,&quot;displayName&quot;:&quot;Vendors View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;c2999a56-811e-4496-87ce-7f7de690087e&quot;,&quot;name&quot;:&quot;maintain:vendors&quot;,&quot;displayName&quot;:&quot;Vendors Maintain&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;132887f3-0590-42b8-a98b-9d3080b964db&quot;,&quot;name&quot;:&quot;view:connections&quot;,&quot;displayName&quot;:&quot;Connections View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;2abfdb59-0620-419b-813c-969b1b88b90d&quot;,&quot;name&quot;:&quot;edit:connections&quot;,&quot;displayName&quot;:&quot;Connections Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;3b757e0a-056f-461c-8dad-8f6747be1ac2&quot;,&quot;name&quot;:&quot;view:feedback&quot;,&quot;displayName&quot;:&quot;Feedback View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;440c7900-42f1-4b00-a5d1-e3a6d02fd88a&quot;,&quot;name&quot;:&quot;edit:feedback&quot;,&quot;displayName&quot;:&quot;Feedback Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;4f40ec1b-022d-431d-a5d1-8e743d0f84bb&quot;,&quot;name&quot;:&quot;view:carriers&quot;,&quot;displayName&quot;:&quot;Carriers View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;fe1e2db7-3a49-4d06-8745-33ce5980de12&quot;,&quot;name&quot;:&quot;manage:carriers&quot;,&quot;displayName&quot;:&quot;Carriers Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;aac06616-7958-4cda-9ed5-1bd2b08f193b&quot;,&quot;name&quot;:&quot;add:agencies&quot;,&quot;displayName&quot;:&quot;Agency Add&quot;,&quot;category&quot;:&quot;Modifying Agencies/Partnerships&quot;},{&quot;id&quot;:&quot;ed37a48b-51be-478a-87da-d85dd06101a7&quot;,&quot;name&quot;:&quot;edit:agencies&quot;,&quot;displayName&quot;:&quot;Agency Edit&quot;,&quot;category&quot;:&quot;Modifying Agencies/Partnerships&quot;},{&quot;id&quot;:&quot;d9300a7c-3a72-45a5-a44e-89bf9646c9ed&quot;,&quot;name&quot;:&quot;remove:agencies&quot;,&quot;displayName&quot;:&quot;Agency Remove&quot;,&quot;category&quot;:&quot;Modifying Agencies/Partnerships&quot;},{&quot;id&quot;:&quot;314f4a55-cf7b-497c-929a-0557093afc9e&quot;,&quot;name&quot;:&quot;view:agencies&quot;,&quot;displayName&quot;:&quot;Agency View&quot;,&quot;category&quot;:&quot;Modifying Agencies/Partnerships&quot;},{&quot;id&quot;:&quot;925cd088-2762-42d3-962a-21da34e4fe40&quot;,&quot;name&quot;:&quot;view:files_metadata&quot;,&quot;displayName&quot;:&quot;File History View&quot;,&quot;category&quot;:&quot;Managing Mail&quot;},{&quot;id&quot;:&quot;9f48f97f-8cf6-4dda-a876-cf967074b1e6&quot;,&quot;name&quot;:&quot;manage:files_metadata&quot;,&quot;displayName&quot;:&quot;Files Metadata Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;fed21a56-d00b-4727-a1e9-519462ba8436&quot;,&quot;name&quot;:&quot;view:files&quot;,&quot;displayName&quot;:&quot;Files Download&quot;,&quot;category&quot;:&quot;Managing Mail&quot;},{&quot;id&quot;:&quot;16dcdc50-dff8-4a03-b5c2-7d44337ce861&quot;,&quot;name&quot;:&quot;view:producers&quot;,&quot;displayName&quot;:&quot;Carrier Producer View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;e4fb07f6-05a8-4123-98fc-59bb7a99c73d&quot;,&quot;name&quot;:&quot;edit:producers&quot;,&quot;displayName&quot;:&quot;Carrier Producer Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;a2688cab-1eff-4ab3-9a7e-0d7a24045879&quot;,&quot;name&quot;:&quot;manage:trading_partners&quot;,&quot;displayName&quot;:&quot;Trading Partners Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;0ad8b48c-28a7-4325-8da3-08186f0955c9&quot;,&quot;name&quot;:&quot;view:trading_partners&quot;,&quot;displayName&quot;:&quot;Trading Partners View&quot;,&quot;category&quot;:&quot;Modifying Agencies/Partnerships&quot;},{&quot;id&quot;:&quot;9e8722b2-b9aa-4385-b7d8-43187de6342b&quot;,&quot;name&quot;:&quot;remove:trading_partners&quot;,&quot;displayName&quot;:&quot;Trading Partners Remove&quot;,&quot;category&quot;:&quot;Modifying Agencies/Partnerships&quot;},{&quot;id&quot;:&quot;e98274e4-e84e-488e-8142-c641d6944c05&quot;,&quot;name&quot;:&quot;add:trading_partners&quot;,&quot;displayName&quot;:&quot;Trading Partners Create/Edit&quot;,&quot;category&quot;:&quot;Modifying Agencies/Partnerships&quot;},{&quot;id&quot;:&quot;71058a23-8fa4-43cc-a4b7-ffc6f00d4d81&quot;,&quot;name&quot;:&quot;maintain:trading_partners&quot;,&quot;displayName&quot;:&quot;Import Trading Partners&quot;,&quot;category&quot;:&quot;Modifying Agencies/Partnerships&quot;},{&quot;id&quot;:&quot;6aaa2961-1486-4aa0-b2c3-a0c3f81059b9&quot;,&quot;name&quot;:&quot;view:mailboxes&quot;,&quot;displayName&quot;:&quot;Mailboxes View&quot;,&quot;category&quot;:&quot;Managing Mail&quot;},{&quot;id&quot;:&quot;6bbb9a20-f437-4e7b-99bc-ad54a4f94216&quot;,&quot;name&quot;:&quot;edit:mailboxes&quot;,&quot;displayName&quot;:&quot;Mailboxes Edit&quot;,&quot;category&quot;:&quot;Mailbox Administration&quot;},{&quot;id&quot;:&quot;6cccb1f1-a662-414b-a8d4-ce4ed207f040&quot;,&quot;name&quot;:&quot;edit:mailboxes_mfa&quot;,&quot;displayName&quot;:&quot;Mailboxes MFA Edit&quot;,&quot;category&quot;:&quot;Mailbox Administration&quot;},{&quot;id&quot;:&quot;6ddd60ed-aab0-4838-ba83-bceda1a14090&quot;,&quot;name&quot;:&quot;manage:mailboxes&quot;,&quot;displayName&quot;:&quot;Mailboxes Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;6eee0334-76e1-4afb-869e-9a4081d81b9f&quot;,&quot;name&quot;:&quot;maintain:mailboxes&quot;,&quot;displayName&quot;:&quot;Mailboxes Maintain&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;6fffe764-e42b-4bee-aaf2-d5430199fb35&quot;,&quot;name&quot;:&quot;view:mailbox_sessions&quot;,&quot;displayName&quot;:&quot;Mailbox Sessions History View&quot;,&quot;category&quot;:&quot;Managing Mail&quot;},{&quot;id&quot;:&quot;ec0445db-013e-47b5-be44-a32135490fd6&quot;,&quot;name&quot;:&quot;edit:carbon_copy&quot;,&quot;displayName&quot;:&quot;Carbon Copy for Trading Partner Edit&quot;,&quot;category&quot;:&quot;Mailbox Administration&quot;},{&quot;id&quot;:&quot;1e0e3cc6-094a-48f6-90f9-8b4b8887dec2&quot;,&quot;name&quot;:&quot;view:carbon_copy&quot;,&quot;displayName&quot;:&quot;Carbon Copy View&quot;,&quot;category&quot;:&quot;Mailbox Administration&quot;},{&quot;id&quot;:&quot;ae05866b-fb1e-49fe-a76e-a7d6157e1f52&quot;,&quot;name&quot;:&quot;edit:users&quot;,&quot;displayName&quot;:&quot;Users Create/Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;d5667d00-20dc-481a-980d-e22f6eb5af92&quot;,&quot;name&quot;:&quot;disable:users&quot;,&quot;displayName&quot;:&quot;Users Disable&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;e794c165-9cfe-4f05-90ee-0aaae69e8d81&quot;,&quot;name&quot;:&quot;manage:system_users&quot;,&quot;displayName&quot;:&quot;System Users Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;c6d8b7fa-3fa6-4d17-8412-9bfa0475c0fc&quot;,&quot;name&quot;:&quot;edit:user_permissions&quot;,&quot;displayName&quot;:&quot;Users Permissions Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;b519b1c4-73cc-4f43-9f81-582210d2e92d&quot;,&quot;name&quot;:&quot;edit:users_email_all_domains&quot;,&quot;displayName&quot;:&quot;Email Invite All Domains&quot;,&quot;category&quot;:&quot;Modifying Agencies/Partnerships&quot;},{&quot;id&quot;:&quot;c6687ad6-73df-4b2d-9eb8-65e050c70112&quot;,&quot;name&quot;:&quot;view:reports&quot;,&quot;displayName&quot;:&quot;Reports View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;41efe3d9-cdce-4e4d-aaf9-c41f229cd533&quot;,&quot;name&quot;:&quot;view:reports_schedules&quot;,&quot;displayName&quot;:&quot;Reports Schedules View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;ecc2cef5-ce72-464c-bc96-864f56963b8a&quot;,&quot;name&quot;:&quot;edit:reports_schedules&quot;,&quot;displayName&quot;:&quot;Reports Schedules Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;6af9e985-e908-40ac-b22b-4ae4a764abd0&quot;,&quot;name&quot;:&quot;manage:system_events&quot;,&quot;displayName&quot;:&quot;System Events Report Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;c958bedf-2635-4bc4-a63c-77efb30e3855&quot;,&quot;name&quot;:&quot;maintain:bookrolls&quot;,&quot;displayName&quot;:&quot;Bookrolls Admin Maintain&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;8ef84067-c554-4ab9-8a36-da2919c5175d&quot;,&quot;name&quot;:&quot;manage:carrier_activity_overrides&quot;,&quot;displayName&quot;:&quot;Carrier Activity Overrides Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;5b8e8798-e372-4be9-b085-98469e86b63e&quot;,&quot;name&quot;:&quot;maintain:webservice_users&quot;,&quot;displayName&quot;:&quot;Webservice Users Maintain&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;ad17686c-4fe8-4fcc-8d07-f14edd87cdc8&quot;,&quot;name&quot;:&quot;maintain:products&quot;,&quot;displayName&quot;:&quot;Products Maintain&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;5b897545-9514-4016-8192-7888701130af&quot;,&quot;name&quot;:&quot;admin:admin&quot;,&quot;displayName&quot;:&quot;Admin Context Switch&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;a9cabe0b-f851-4d74-a716-d8ee0c657de3&quot;,&quot;name&quot;:&quot;admin:company_rollup&quot;,&quot;displayName&quot;:&quot;Company Rollup Context Switch&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;b18cb2bb-25fc-46b4-9c39-9e1ad5188ca4&quot;,&quot;name&quot;:&quot;edit:carriers&quot;,&quot;displayName&quot;:&quot;Carriers Profile Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;77d92dd3-73bc-4e94-a265-9f016a73c038&quot;,&quot;name&quot;:&quot;view:dashboard&quot;,&quot;displayName&quot;:&quot;Dashboard View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;de80cd31-b9b2-4342-9ba1-4f2b2c4bd079&quot;,&quot;name&quot;:&quot;edit:files_metadata_hold&quot;,&quot;displayName&quot;:&quot;File Status Hold&quot;,&quot;category&quot;:&quot;Managing Mail&quot;},{&quot;id&quot;:&quot;e9178a75-7b00-4a43-af9f-c654857d558b&quot;,&quot;name&quot;:&quot;edit:files_metadata_cancel&quot;,&quot;displayName&quot;:&quot;File Status Cancel&quot;,&quot;category&quot;:&quot;Managing Mail&quot;},{&quot;id&quot;:&quot;c7b70806-c832-4787-b5b1-da2330c9356a&quot;,&quot;name&quot;:&quot;edit:files_metadata_resend&quot;,&quot;displayName&quot;:&quot;File Status Resend Full File&quot;,&quot;category&quot;:&quot;Managing Mail&quot;},{&quot;id&quot;:&quot;3f9f2e5e-a1ff-4434-b839-8965ec5a120b&quot;,&quot;name&quot;:&quot;edit:files_metadata_resend_transaction&quot;,&quot;displayName&quot;:&quot;File Status Resend Transaction&quot;,&quot;category&quot;:&quot;Managing Mail&quot;},{&quot;id&quot;:&quot;ccac5c61-b631-4953-a440-200e894ce6bd&quot;,&quot;name&quot;:&quot;manage:agencies&quot;,&quot;displayName&quot;:&quot;Agencies Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;e54f4861-7152-4562-b047-37ce08b1e826&quot;,&quot;name&quot;:&quot;manage:carbon_copy&quot;,&quot;displayName&quot;:&quot;Carbon Copy Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;7e48310d-fe9b-497d-ad4c-a4c8005510c8&quot;,&quot;name&quot;:&quot;manage:connections&quot;,&quot;displayName&quot;:&quot;Connections Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;3f5953cc-60a6-4314-a06f-f6573699abf1&quot;,&quot;name&quot;:&quot;manage:contacts&quot;,&quot;displayName&quot;:&quot;Contacts Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;065a5c2a-217f-4c6e-8dc7-85182f534ab3&quot;,&quot;name&quot;:&quot;manage:reports_schedules&quot;,&quot;displayName&quot;:&quot;Reports Schedules Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;4789d979-fbb4-4b20-9f2f-cc16075c946b&quot;,&quot;name&quot;:&quot;manage:files&quot;,&quot;displayName&quot;:&quot;Files Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;5f298e33-645f-47a9-9c7f-439054d403b7&quot;,&quot;name&quot;:&quot;manage:products&quot;,&quot;displayName&quot;:&quot;Products Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;0eefcb9a-ea3b-4f0c-99d7-5e2577af10c7&quot;,&quot;name&quot;:&quot;manage:groups&quot;,&quot;displayName&quot;:&quot;Groups Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;dce000cc-27fd-488a-8bf0-371987d4030a&quot;,&quot;name&quot;:&quot;manage:users&quot;,&quot;displayName&quot;:&quot;Users Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;96494e55-28d1-4bae-af77-5bbae560ebb1&quot;,&quot;name&quot;:&quot;manage:eula_signatures&quot;,&quot;displayName&quot;:&quot;Signed Eulas Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;055a377e-8177-4c84-abd4-9baaa33c46c5&quot;,&quot;name&quot;:&quot;manage:bookrolls&quot;,&quot;displayName&quot;:&quot;Bookrolls Manage&quot;,&quot;category&quot;:&quot;Ivans Administration&quot;},{&quot;id&quot;:&quot;0195d7bd-e88c-4ce3-bf6f-98e183073ba8&quot;,&quot;name&quot;:&quot;maintain:insights&quot;,&quot;displayName&quot;:&quot;Insights Admin Maintain&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;a477c9d8-e29d-4558-948b-da39ed2e3975&quot;,&quot;name&quot;:&quot;view:insights&quot;,&quot;displayName&quot;:&quot;Insights Access&quot;,&quot;category&quot;:&quot;Account Administration&quot;}]</code></pre>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyText-bac76ed9-b69c-4332-a7d3-bd24d17b8e43">Copy to Clipboard</button>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card border-info">
+                                <div class="card-body">
+                                <h5 class="card-title text-uppercase text-white text-center bg-info">Test Information</h5>
+                                    <div class="table-responsive text-nowrap">
+                                        <table class="datatable table table-hover">
+                                        <thead><tr class="text-center"><th>Name</th><th>Passed</th><th>Failed</th><th>Skipped</th></tr></thead>
+                                            <tbody>
+                                                <tr >
+                                                    <td >Status code is 200 OK</td>
+                                                    <td class="text-center bg-success">2</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="bg-light">
+                                                    <td><strong>Total</strong></td>
+                                                    <td class="text-center">2</td>
+                                                    <td class="text-center">0</td>
+                                                    <td class="text-center">0</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="row d-none">
+                                    <div class="col-sm-12 mb-3">
+                                        <div class="card-deck">
+                                        <div class="card border-danger" style="width: 50rem;">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-uppercase text-white text-center bg-danger">Test Failure</h5>
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                    <thead><tr class="text-nowrap"><th>Test Name</th><th>Assertion Error</th></tr></thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div id="folder-fe2b6735-4a53-4998-8957-5ab663add09d" class="card-deck iteration-0">
+            <div class="row iteration-0">
+                <div class="col-sm-12 mb-3 iteration-0">
+                <div class="card iteration-0">
+                    <div class="card-header  bg-success iteration-0">
+                        <a data-toggle="collapse" href="#" data-target="#collapse-fe2b6735-4a53-4998-8957-5ab663add09d" aria-expanded="false" aria-controls="collapse" id="requests-fe2b6735-4a53-4998-8957-5ab663add09d" class="collapsed text-white z-block">
+                    Iteration: 1 - return 200 Ok with permission details for a role using role ID <i class="float-lg-right fa fa-chevron-down" style="padding-top: 5px;"></i>
+                </a>
+                    </div>
+                    <div id="collapse-fe2b6735-4a53-4998-8957-5ab663add09d" class="collapse" aria-labelledby="requests-fe2b6735-4a53-4998-8957-5ab663add09d">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request Method:</strong> <span class="badge-outline-success badge badge-success"> GET</span><br>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request URL:</strong> <a href="https://oh-dev-12:36810/v1/roles/0ec144c6-c761-4c07-b7a1-eb7516d847c9/permissions" target="_blank">https://oh-dev-12:36810/v1/roles/0ec144c6-c761-4c07-b7a1-eb7516d847c9/permissions</a><br>
+                                    </div>
+                                </div>
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Response Code:</strong> <span class="float-right badge-outline badge badge-success"> 200 - OK</span><br>
+                                    <span><i class="fas fa-stopwatch"></i></span><strong> Mean time per request:</strong> <span class="float-right badge-outline badge badge-success"> 302ms</span><br>
+                                    <span><i class="fas fa-database"></i></span><strong> Mean size per request:</strong> <span class="float-right badge-outline badge badge-success"> 4.06KB</span><br>
+                                    <hr>
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Test Pass Percentage</h5>
+                                    <div>
+                                        <div class="progress" style="height: 40px;">
+                                            <div class="progress-bar  bg-success" style="width: 100%" role="progressbar">
+                                            <h5 style="padding-top:5px;"><strong>100 %</strong></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-uppercase text-white text-center bg-info">Request Headers</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                            <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap">Authorization</td>
+                                                        <td class="text-wrap">Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InJjS0FlTko5N0V2Z0JPaFQ2RlpWWnI1dWNYYyIsImtpZCI6InJjS0FlTko5N0V2Z0JPaFQ2RlpWWnI1dWNYYyJ9.eyJpc3MiOiJodHRwczovL29oLWRldi0xMjozNTgwMCIsImF1ZCI6Imh0dHBzOi8vb2gtZGV2LTEyOjM1ODAwL3Jlc291cmNlcyIsImV4cCI6MTY3ODM1NDM1OSwibmJmIjoxNjc4MzUwNzU5LCJjbGllbnRfaWQiOiJDMEU5MUJDOS1DODdELTQ1MzktOTJBQy0zRkUyQURDODRGQkUiLCJzY29wZSI6WyJmaWxlX3RyYW5zZmVyIiwiaWRlbnRpdHkiLCJvcGVuaWQiXSwic3ViIjoiMWQyYTVkOTYtNWZkYS00MjU1LTljMDYtOWNjNjFjZWI1ZTNkIiwiYXV0aF90aW1lIjoxNjc4MzUwNzU5LCJpZHAiOiJpZHNydiIsIm5hbWUiOiJwb3N0bWFuLml2YW4udXNlciIsImVtYWlsIjoiaXZhbnNxZUBpdmFuc2luc3VyYW5jZS5jb20iLCJmdWxsIG5hbWUiOiJBdXRvbWF0aW9uIEl2YW4gVXNlciIsInJvbGUiOiJJdmFucyBVc2VyIiwicHJvZHVjdHMiOlsiZXhjaGFuZ2UiLCJtYXJrZXRhcHBldGl0ZSJdLCJtdXN0IHNpZ24gZXVsYSI6IiIsImFjY291bnQiOlsiQUdOVCIsIkJXQ1MiLCJJVkFOIiwiSVdFQiJdLCJtZW1iZXIiOlsiQ2FycmllciIsIml2YW5zIl0sInBlcm1pc3Npb25zIjpbImFkZDphZ2VuY2llcyIsImFkZDp0cmFkaW5nX3BhcnRuZXJzIiwiYWRtaW46YWRtaW4iLCJhZG1pbjpjb21wYW55X3JvbGx1cCIsImRpc2FibGU6dXNlcnMiLCJlZGl0OmFnZW5jaWVzIiwiZWRpdDphcGlfY2xpZW50cyIsImVkaXQ6YXBpX3Byb2ZpbGVzIiwiZWRpdDpjYXJib25fY29weSIsImVkaXQ6Y2FycmllcnMiLCJlZGl0OmNvbm5lY3Rpb25zIiwiZWRpdDpmZWVkYmFjayIsImVkaXQ6ZmlsZXNfbWV0YWRhdGFfY2FuY2VsIiwiZWRpdDpmaWxlc19tZXRhZGF0YV9ob2xkIiwiZWRpdDpmaWxlc19tZXRhZGF0YV9yZXNlbmQiLCJlZGl0OmZpbGVzX21ldGFkYXRhX3Jlc2VuZF90cmFuc2FjdGlvbiIsImVkaXQ6bWFpbGJveGVzIiwiZWRpdDptYWlsYm94ZXNfbWZhIiwiZWRpdDpwcm9kdWNlcnMiLCJlZGl0OnByb2R1Y3RzIiwiZWRpdDpyZXBvcnRzX3NjaGVkdWxlcyIsImVkaXQ6dXNlcl9wZXJtaXNzaW9ucyIsImVkaXQ6dXNlcnMiLCJtYW5hZ2U6YWdlbmNpZXMiLCJtYW5hZ2U6YXBpX2NsaWVudHMiLCJtYW5hZ2U6Ym9va3JvbGxzIiwibWFuYWdlOmNhcmJvbl9jb3B5IiwibWFuYWdlOmNhcnJpZXJfYWN0aXZpdHlfb3ZlcnJpZGVzIiwibWFuYWdlOmNhcnJpZXJzIiwibWFuYWdlOmNvbm5lY3Rpb25zIiwibWFuYWdlOmNvbnRhY3RzIiwibWFuYWdlOmV1bGFfc2lnbmF0dXJlcyIsIm1hbmFnZTpmaWxlcyIsIm1hbmFnZTpmaWxlc19tZXRhZGF0YSIsIm1hbmFnZTpncm91cHMiLCJtYW5hZ2U6bWFpbGJveGVzIiwibWFuYWdlOm5ld3MiLCJtYW5hZ2U6cHJvZHVjdHMiLCJtYW5hZ2U6cmVwb3J0c19zY2hlZHVsZXMiLCJtYW5hZ2U6c3lzdGVtX2V2ZW50cyIsIm1hbmFnZTpzeXN0ZW1fdXNlcnMiLCJtYW5hZ2U6dHByX3NldHMiLCJtYW5hZ2U6dHJhZGluZ19wYXJ0bmVycyIsIm1hbmFnZTp1c2VycyIsIm1hbmFnZTp2ZW5kb3JfcHJvZHVjdHMiLCJyZW1vdmU6YWdlbmNpZXMiLCJyZW1vdmU6dHJhZGluZ19wYXJ0bmVycyIsInZpZXc6YWdlbmNpZXMiLCJ2aWV3OmFnZW5jeV9ldWxhcyIsInZpZXc6YXBpX2NsaWVudHMiLCJ2aWV3OmFwaV9wcm9maWxlcyIsInZpZXc6Ym9va3JvbGxzIiwidmlldzpjYXJib25fY29weSIsInZpZXc6Y2FycmllcnMiLCJ2aWV3OmNvbm5lY3Rpb25zIiwidmlldzpkYXNoYm9hcmQiLCJ2aWV3OmZlZWRiYWNrIiwidmlldzpmaWxlcyIsInZpZXc6ZmlsZXNfbWV0YWRhdGEiLCJ2aWV3Om1haWxib3hfc2Vzc2lvbnMiLCJ2aWV3Om1haWxib3hlcyIsInZpZXc6bWFya2V0X2FwcGV0aXRlIiwidmlldzpwcm9kdWNlcnMiLCJ2aWV3OnJlcG9ydHMiLCJ2aWV3OnJlcG9ydHNfc2NoZWR1bGVzIiwidmlldzp0cmFkaW5nX3BhcnRuZXJzIiwidmlldzp2ZW5kb3JzIl0sImp0aSI6IjkxYmJkMTU4NTgxZDhhNDg0N2M4Nzc3NjUyZjE0YTM0IiwiYW1yIjpbInBhc3N3b3JkIl19.eIS8Hm3MSMOOQKvy9bVRiCyqa7n_sTQFQXGhXrOJNEcnzmoJSwsa5GLEtcDj_o0tFzvWsIEMICIF69hxLZPAvdFa_1wSqdi3piE1K4_q67DwpkEPFZWbhxCjai6hpbcY9JKGtZmkUcGvK5p7GFRT33B0hDszefoJK_beBmp097hWsB6dc1CtqKPkbvVniyynaGzcc0vWFCke03M3W9yl8f-QI_A6sexCiS-faNNBNnfTdh_7eORTOhU3oEpUU7VRdO8yu1X2aooVCHt2DKHsSRDMika91WXD0JOaY10u4PNdPPlraPTkfnLb9MzHjkpT0we98EFa5WZqZ5-BlcL3pg</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">User-Agent</td>
+                                                        <td class="text-wrap">PostmanRuntime/7.29.0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept</td>
+                                                        <td class="text-wrap">*/*</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cache-Control</td>
+                                                        <td class="text-wrap">no-cache</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Postman-Token</td>
+                                                        <td class="text-wrap">fed2fe89-46ed-4b25-b9af-d165640b01bd</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Host</td>
+                                                        <td class="text-wrap">oh-dev-12:36810</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept-Encoding</td>
+                                                        <td class="text-wrap">gzip, deflate, br</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Connection</td>
+                                                        <td class="text-wrap">keep-alive</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Headers</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                        <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Length</td>
+                                                    <td class="text-wrap">4153</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Type</td>
+                                                    <td class="text-wrap">application/json; charset&#x3D;utf-8</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Server</td>
+                                                    <td class="text-wrap">Microsoft-IIS/10.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Strict-Transport-Security</td>
+                                                    <td class="text-wrap">max-age&#x3D;2592000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">api-supported-versions</td>
+                                                    <td class="text-wrap">1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Rate-Limit-Limit</td>
+                                                    <td class="text-wrap">1s</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Rate-Limit-Remaining</td>
+                                                    <td class="text-wrap">199</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Rate-Limit-Reset</td>
+                                                    <td class="text-wrap">2023-03-09T08:32:40.8122269Z</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Powered-By</td>
+                                                    <td class="text-wrap">ASP.NET</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Date</td>
+                                                    <td class="text-wrap">Thu, 09 Mar 2023 08:32:39 GMT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Body</h5>
+                                        <div class="dyn-height">
+                                                <pre><code id="copyText-a7923141-1e85-4a3b-a04c-6c5db5f9a57c" class="prettyPrint">[{&quot;id&quot;:&quot;b21f7ac7-64aa-40c3-9970-c8454320e296&quot;,&quot;name&quot;:&quot;view:agency_eulas&quot;,&quot;displayName&quot;:&quot;Agency EULA View&quot;,&quot;category&quot;:&quot;Modifying Agencies/Partnerships&quot;},{&quot;id&quot;:&quot;4d745441-20ee-4217-af45-ad058af147a2&quot;,&quot;name&quot;:&quot;view:api_clients&quot;,&quot;displayName&quot;:&quot;API Clients View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;fd05509a-1390-4d3f-868f-576d48f44532&quot;,&quot;name&quot;:&quot;edit:api_clients&quot;,&quot;displayName&quot;:&quot;API Clients Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;8c134a3e-4c94-4b50-b776-97348c0d0689&quot;,&quot;name&quot;:&quot;view:api_profiles&quot;,&quot;displayName&quot;:&quot;API Profiles View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;8cbf7f5e-cd3d-46f1-9fb7-ab0335b5d6fd&quot;,&quot;name&quot;:&quot;edit:api_profiles&quot;,&quot;displayName&quot;:&quot;API Profiles Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;e780dc70-2518-46be-80f5-7f9c22141712&quot;,&quot;name&quot;:&quot;edit:bookrolls&quot;,&quot;displayName&quot;:&quot;Bookrolls Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;c5642dea-afef-4e23-a638-fc0095d9710d&quot;,&quot;name&quot;:&quot;view:bookrolls&quot;,&quot;displayName&quot;:&quot;Bookrolls View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;a2a32ae6-4def-4d33-b67d-5bd386f1a784&quot;,&quot;name&quot;:&quot;view:market_appetite&quot;,&quot;displayName&quot;:&quot;Market Appetite View&quot;,&quot;category&quot;:&quot;Ivans Marketplace&quot;},{&quot;id&quot;:&quot;132887f3-0590-42b8-a98b-9d3080b964db&quot;,&quot;name&quot;:&quot;view:connections&quot;,&quot;displayName&quot;:&quot;Connections View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;2abfdb59-0620-419b-813c-969b1b88b90d&quot;,&quot;name&quot;:&quot;edit:connections&quot;,&quot;displayName&quot;:&quot;Connections Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;3b757e0a-056f-461c-8dad-8f6747be1ac2&quot;,&quot;name&quot;:&quot;view:feedback&quot;,&quot;displayName&quot;:&quot;Feedback View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;ed37a48b-51be-478a-87da-d85dd06101a7&quot;,&quot;name&quot;:&quot;edit:agencies&quot;,&quot;displayName&quot;:&quot;Agency Edit&quot;,&quot;category&quot;:&quot;Modifying Agencies/Partnerships&quot;},{&quot;id&quot;:&quot;314f4a55-cf7b-497c-929a-0557093afc9e&quot;,&quot;name&quot;:&quot;view:agencies&quot;,&quot;displayName&quot;:&quot;Agency View&quot;,&quot;category&quot;:&quot;Modifying Agencies/Partnerships&quot;},{&quot;id&quot;:&quot;fed21a56-d00b-4727-a1e9-519462ba8436&quot;,&quot;name&quot;:&quot;view:files&quot;,&quot;displayName&quot;:&quot;Files Download&quot;,&quot;category&quot;:&quot;Managing Mail&quot;},{&quot;id&quot;:&quot;6aaa2961-1486-4aa0-b2c3-a0c3f81059b9&quot;,&quot;name&quot;:&quot;view:mailboxes&quot;,&quot;displayName&quot;:&quot;Mailboxes View&quot;,&quot;category&quot;:&quot;Managing Mail&quot;},{&quot;id&quot;:&quot;6bbb9a20-f437-4e7b-99bc-ad54a4f94216&quot;,&quot;name&quot;:&quot;edit:mailboxes&quot;,&quot;displayName&quot;:&quot;Mailboxes Edit&quot;,&quot;category&quot;:&quot;Mailbox Administration&quot;},{&quot;id&quot;:&quot;6fffe764-e42b-4bee-aaf2-d5430199fb35&quot;,&quot;name&quot;:&quot;view:mailbox_sessions&quot;,&quot;displayName&quot;:&quot;Mailbox Sessions History View&quot;,&quot;category&quot;:&quot;Managing Mail&quot;},{&quot;id&quot;:&quot;ae05866b-fb1e-49fe-a76e-a7d6157e1f52&quot;,&quot;name&quot;:&quot;edit:users&quot;,&quot;displayName&quot;:&quot;Users Create/Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;d5667d00-20dc-481a-980d-e22f6eb5af92&quot;,&quot;name&quot;:&quot;disable:users&quot;,&quot;displayName&quot;:&quot;Users Disable&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;c6d8b7fa-3fa6-4d17-8412-9bfa0475c0fc&quot;,&quot;name&quot;:&quot;edit:user_permissions&quot;,&quot;displayName&quot;:&quot;Users Permissions Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;b519b1c4-73cc-4f43-9f81-582210d2e92d&quot;,&quot;name&quot;:&quot;edit:users_email_all_domains&quot;,&quot;displayName&quot;:&quot;Email Invite All Domains&quot;,&quot;category&quot;:&quot;Modifying Agencies/Partnerships&quot;},{&quot;id&quot;:&quot;c6687ad6-73df-4b2d-9eb8-65e050c70112&quot;,&quot;name&quot;:&quot;view:reports&quot;,&quot;displayName&quot;:&quot;Reports View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;41efe3d9-cdce-4e4d-aaf9-c41f229cd533&quot;,&quot;name&quot;:&quot;view:reports_schedules&quot;,&quot;displayName&quot;:&quot;Reports Schedules View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;ecc2cef5-ce72-464c-bc96-864f56963b8a&quot;,&quot;name&quot;:&quot;edit:reports_schedules&quot;,&quot;displayName&quot;:&quot;Reports Schedules Edit&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;77d92dd3-73bc-4e94-a265-9f016a73c038&quot;,&quot;name&quot;:&quot;view:dashboard&quot;,&quot;displayName&quot;:&quot;Dashboard View&quot;,&quot;category&quot;:&quot;Account Administration&quot;},{&quot;id&quot;:&quot;de80cd31-b9b2-4342-9ba1-4f2b2c4bd079&quot;,&quot;name&quot;:&quot;edit:files_metadata_hold&quot;,&quot;displayName&quot;:&quot;File Status Hold&quot;,&quot;category&quot;:&quot;Managing Mail&quot;},{&quot;id&quot;:&quot;e9178a75-7b00-4a43-af9f-c654857d558b&quot;,&quot;name&quot;:&quot;edit:files_metadata_cancel&quot;,&quot;displayName&quot;:&quot;File Status Cancel&quot;,&quot;category&quot;:&quot;Managing Mail&quot;},{&quot;id&quot;:&quot;c7b70806-c832-4787-b5b1-da2330c9356a&quot;,&quot;name&quot;:&quot;edit:files_metadata_resend&quot;,&quot;displayName&quot;:&quot;File Status Resend Full File&quot;,&quot;category&quot;:&quot;Managing Mail&quot;},{&quot;id&quot;:&quot;3f9f2e5e-a1ff-4434-b839-8965ec5a120b&quot;,&quot;name&quot;:&quot;edit:files_metadata_resend_transaction&quot;,&quot;displayName&quot;:&quot;File Status Resend Transaction&quot;,&quot;category&quot;:&quot;Managing Mail&quot;}]</code></pre>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyText-a7923141-1e85-4a3b-a04c-6c5db5f9a57c">Copy to Clipboard</button>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card border-info">
+                                <div class="card-body">
+                                <h5 class="card-title text-uppercase text-white text-center bg-info">Test Information</h5>
+                                    <div class="table-responsive text-nowrap">
+                                        <table class="datatable table table-hover">
+                                        <thead><tr class="text-center"><th>Name</th><th>Passed</th><th>Failed</th><th>Skipped</th></tr></thead>
+                                            <tbody>
+                                                <tr >
+                                                    <td >Status code is 200 OK</td>
+                                                    <td class="text-center bg-success">2</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="bg-light">
+                                                    <td><strong>Total</strong></td>
+                                                    <td class="text-center">2</td>
+                                                    <td class="text-center">0</td>
+                                                    <td class="text-center">0</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="row d-none">
+                                    <div class="col-sm-12 mb-3">
+                                        <div class="card-deck">
+                                        <div class="card border-danger" style="width: 50rem;">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-uppercase text-white text-center bg-danger">Test Failure</h5>
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                    <thead><tr class="text-nowrap"><th>Test Name</th><th>Assertion Error</th></tr></thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- Set slider initial position depending on the localstorage state -->
+
+<script>
+(function () {
+  var sliderChecked = true;
+  if (localStorage.getItem('theme') === 'theme-light') {
+    setTheme('theme-light');
+    sliderChecked = false;
+  } else {
+    setTheme('theme-dark');
+    sliderChecked = true;
+  }
+  $(document).ready( function () {
+    document.getElementById('slider').checked = sliderChecked;
+  });
+})();
+</script>
+
+<!-- Data Table Configuration -->
+
+<script>
+$(document).ready( function () {
+    $('.datatable').DataTable({
+        "retrieve": true,
+        "paging": false,
+        "info": false,
+        "fixedColumns":   {
+            "heightMatch": 'none'
+        }
+    });
+});
+</script>
+
+<!-- Tooltip Configuration -->
+
+<script>
+$(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip({
+        trigger : 'hover'
+    })
+})
+</script>
+
+<!-- Show/Hide The Folders -->
+
+<script>
+$('#openAll').on('click', function(e) {
+let clickCount = $(this).data("clickCount") || 1
+switch (clickCount){
+    case 1:
+            $('#folder-fc443255-605e-4cc4-a3d3-5da54886da29-iteration-0').removeClass('collapsed')
+            $('#folder-collapse-fc443255-605e-4cc4-a3d3-5da54886da29-iteration-0').addClass('show')
+        $('#openAll').html("Collapse Folders");
+        break;
+    case 2:
+            $('#folder-fc443255-605e-4cc4-a3d3-5da54886da29-iteration-0').addClass('collapsed')
+            $('#folder-collapse-fc443255-605e-4cc4-a3d3-5da54886da29-iteration-0').removeClass('show')
+        $('#openAll').html("Expand Folders");
+        break;
+}
+clickCount = clickCount > 1 ? 1 : ++clickCount;
+$(this).data("clickCount", clickCount)
+})
+</script>
+
+<!-- Show/Hide The Requests -->
+
+<script>
+$('#openAllRequests').on('click', function(e) {
+let clickCount = $(this).data("clickCount") || 1
+switch (clickCount){
+    case 1:
+            $('#requests-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').removeClass('collapsed')
+            $('#collapse-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').removeClass('collapsed')
+            $('#requests-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').addClass('show')
+            $('#collapse-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').addClass('show')
+            $('#requests-9620b002-024a-4482-a517-1a303428b81f').removeClass('collapsed')
+            $('#collapse-9620b002-024a-4482-a517-1a303428b81f').removeClass('collapsed')
+            $('#requests-9620b002-024a-4482-a517-1a303428b81f').addClass('show')
+            $('#collapse-9620b002-024a-4482-a517-1a303428b81f').addClass('show')
+            $('#requests-fe2b6735-4a53-4998-8957-5ab663add09d').removeClass('collapsed')
+            $('#collapse-fe2b6735-4a53-4998-8957-5ab663add09d').removeClass('collapsed')
+            $('#requests-fe2b6735-4a53-4998-8957-5ab663add09d').addClass('show')
+            $('#collapse-fe2b6735-4a53-4998-8957-5ab663add09d').addClass('show')
+        $('#openAllRequests').html("Collapse Requests");
+        break;
+    case 2:
+            $('#requests-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').addClass('collapsed')
+            $('#collapse-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').addClass('collapsed')
+            $('#requests-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').removeClass('show')
+            $('#collapse-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').removeClass('show')
+            $('#requests-9620b002-024a-4482-a517-1a303428b81f').addClass('collapsed')
+            $('#collapse-9620b002-024a-4482-a517-1a303428b81f').addClass('collapsed')
+            $('#requests-9620b002-024a-4482-a517-1a303428b81f').removeClass('show')
+            $('#collapse-9620b002-024a-4482-a517-1a303428b81f').removeClass('show')
+            $('#requests-fe2b6735-4a53-4998-8957-5ab663add09d').addClass('collapsed')
+            $('#collapse-fe2b6735-4a53-4998-8957-5ab663add09d').addClass('collapsed')
+            $('#requests-fe2b6735-4a53-4998-8957-5ab663add09d').removeClass('show')
+            $('#collapse-fe2b6735-4a53-4998-8957-5ab663add09d').removeClass('show')
+        $('#openAllRequests').html("Expand Requests");
+        break;
+}
+clickCount = clickCount > 1 ? 1 : ++clickCount;
+$(this).data("clickCount", clickCount)
+})
+</script>
+
+<!-- Show/Hide The Skipped Tests -->
+
+<script>
+$('#openAllSkipped').on('click', function(e) {
+let clickCount = $(this).data("clickCount") || 1
+switch (clickCount){
+    case 1:
+            $('#skipped-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').removeClass('collapsed')
+            $('#skipped-collapse-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').removeClass('collapsed')
+            $('#skipped-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').addClass('show')
+            $('#skipped-collapse-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').addClass('show')
+            $('#skipped-9620b002-024a-4482-a517-1a303428b81f').removeClass('collapsed')
+            $('#skipped-collapse-9620b002-024a-4482-a517-1a303428b81f').removeClass('collapsed')
+            $('#skipped-9620b002-024a-4482-a517-1a303428b81f').addClass('show')
+            $('#skipped-collapse-9620b002-024a-4482-a517-1a303428b81f').addClass('show')
+            $('#skipped-fe2b6735-4a53-4998-8957-5ab663add09d').removeClass('collapsed')
+            $('#skipped-collapse-fe2b6735-4a53-4998-8957-5ab663add09d').removeClass('collapsed')
+            $('#skipped-fe2b6735-4a53-4998-8957-5ab663add09d').addClass('show')
+            $('#skipped-collapse-fe2b6735-4a53-4998-8957-5ab663add09d').addClass('show')
+        $('#openAllSkipped').html("Collapse All Skipped Tests");
+        break;
+    case 2:
+            $('#skipped-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').addClass('collapsed')
+            $('#skipped-collapse-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').addClass('collapsed')
+            $('#skipped-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').removeClass('show')
+            $('#skipped-collapse-3df3a2de-7ef2-4258-9aa8-2c572c0f27d4').removeClass('show')
+            $('#skipped-9620b002-024a-4482-a517-1a303428b81f').addClass('collapsed')
+            $('#skipped-collapse-9620b002-024a-4482-a517-1a303428b81f').addClass('collapsed')
+            $('#skipped-9620b002-024a-4482-a517-1a303428b81f').removeClass('show')
+            $('#skipped-collapse-9620b002-024a-4482-a517-1a303428b81f').removeClass('show')
+            $('#skipped-fe2b6735-4a53-4998-8957-5ab663add09d').addClass('collapsed')
+            $('#skipped-collapse-fe2b6735-4a53-4998-8957-5ab663add09d').addClass('collapsed')
+            $('#skipped-fe2b6735-4a53-4998-8957-5ab663add09d').removeClass('show')
+            $('#skipped-collapse-fe2b6735-4a53-4998-8957-5ab663add09d').removeClass('show')
+        $('#openAllSkipped').html("Expand All Skipped Tests");
+        break;
+}
+clickCount = clickCount > 1 ? 1 : ++clickCount;
+$(this).data("clickCount", clickCount)
+})
+</script>
+
+<!-- Show/Hide The Failures -->
+
+<script>
+$('#openAllFailed').on('click', function(e) {
+let clickCount = $(this).data("clickCount") || 1
+let failedItemContent
+let failedItemHeading
+switch (clickCount){
+    case 1:
+        $('#openAllFailed').html("Collapse All Failed Tests");
+        break;
+    case 2:
+        $('#openAllFailed').html("Expand All Failed Tests");
+        break;
+}
+clickCount = clickCount > 1 ? 1 : ++clickCount;
+$(this).data("clickCount", clickCount)
+})
+</script>
+
+<!-- Pretty Print the Response Body-->
+
+<script>
+function isJSON(data)
+{
+    var ret = true;
+    try {
+            JSON.parse(data);
+    }catch(e) {
+            ret = false;
+    }
+    return ret;
+}
+
+function isXML(data)
+{
+    return (data.length > 0 && data[0] === '<');
+}
+
+// see https://gist.github.com/sente/1083506/d2834134cd070dbcc08bf42ee27dabb746a1c54d#gistcomment-2254622
+function formatXML(data) {
+    const PADDING = ' '.repeat(2); // set desired indent size here
+    const reg = /(>)(<)(\/*)/g;
+    let pad = 0;
+    xml = data.replace(reg, '$1\r\n$2$3');
+
+    return xml.split('\r\n').map((node, index) => {
+        let indent = 0;
+        if (node.match(/.+<\/\w[^>]*>$/)) {
+            indent = 0;
+        } else if (node.match(/^<\/\w/) && pad > 0) {
+            pad -= 1;
+        } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
+            indent = 1;
+        } else {
+            indent = 0;
+        }
+
+        pad += indent;
+        return PADDING.repeat(pad - indent) + node;
+    }).join('\r\n');
+}
+
+$(".prettyPrint").each(function () {
+        var data = $(this).text();
+        // Verify whether data is JSON
+        if(isJSON(data))
+        {
+                obj = JSON.parse(data);
+                data = JSON.stringify(obj, null, 2);
+        }
+        else if(isXML(data)) {
+            data = formatXML(data);
+        }
+        $(this).text(data);
+});
+</script>
+
+
+<!-- Copy Response Body To Clipboard -->
+
+<script>
+    var clipboard = new ClipboardJS('.copyButton');
+
+    clipboard.on('success', function(e) {
+        e.clearSelection();
+        $(".copyButton").addClass("bg-success text-white")
+        e.trigger.textContent = '✔ Copied!';
+        window.setTimeout(function() {
+            $(".copyButton").removeClass("bg-success text-white")
+            e.trigger.textContent = 'Copy to Clipboard';
+        }, 2000);
+    });
+    clipboard.on('error', function(e) {
+        e.clearSelection();
+        $(".copyButton").addClass("bg-danger text-white")
+        e.trigger.textContent = '✗ Not Copied';
+        window.setTimeout(function() {
+            $(".copyButton").removeClass("bg-danger text-white")
+            e.trigger.textContent = 'Copy to Clipboard';
+        }, 2000);
+    });
+
+</script>
+
+<!-- Render the Description Markdown and link in the test failures -->
+
+<script>
+    const remarkable = new Remarkable();
+
+    const descriptions = document.querySelectorAll(".renderMarkdown");
+    descriptions.forEach(description => {
+        description.innerHTML = renderHtmlFromMarkdown(description.textContent);
+    });
+    function renderHtmlFromMarkdown(markdown) {
+        return remarkable.render(trim(markdown));
+    }
+    function trim(string) {
+        return string ? string.replace(/^ +| +$/gm, "") : string;
+    }
+</script>
+
+<!-- Show/Hide The Toggles When Scrolling The Page -->
+
+<script>
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    document.getElementById("topOfRequestsScreen").style.display = "block";
+    document.getElementById("topOfFailuresScreen").style.display = "block";
+    document.getElementById("topOfSkippedScreen").style.display = "block";
+    document.getElementById("openAll").style.display = "none";
+    document.getElementById("openAllRequests").style.display = "none";
+
+
+  } else {
+    document.getElementById("topOfRequestsScreen").style.display = "none";
+    document.getElementById("topOfFailuresScreen").style.display = "none";
+    document.getElementById("topOfSkippedScreen").style.display = "none";
+    document.getElementById("openAll").style.display = "block";
+    document.getElementById("openAllRequests").style.display = "block";
+
+  }
+}
+
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+</script>
+
+<!-- Creates The Iteration Tabs -->
+
+<script type="text/javascript">
+    "use strict";
+
+window.onload = function () {
+
+  // set display for all blocks of response
+  var allItems = document.querySelectorAll('[class*=iteration-]');
+  allItems.forEach(function(elem){
+    elem.style.display = 'block';
+  });
+
+   
+  let totalIterations = 1;
+   
+
+  let menu = document.querySelector('#execution-menu .nav');
+
+  for(var i = 0; i < totalIterations; i++)
+  {
+    let li = document.createElement('li');
+    li.appendChild(document.createTextNode((i + 1)));
+    li.setAttribute('id', 'iteration-' + i);
+    li.classList.add("custom-tab");
+    li.classList.add("itPassed");
+
+    li.addEventListener('click', function() {
+      //set display to none for all except row
+      let allItems = document.querySelectorAll('[class*=iteration-]:not(.row)');
+      allItems.forEach(function(elem) {
+        elem.style.display = 'none';
+      })
+
+      let allMenus = document.querySelectorAll('[id*=iteration-]');
+      allMenus.forEach(function(elem){
+        elem.style.borderBottom = 'none';
+      })
+
+      this.style.borderBottom = 'solid 3px #032a33';
+
+      let items = document.querySelectorAll("." + this.id + ':not(.row)');
+      items.forEach(function(elem) {
+        elem.style.display = elem.style.display == 'block' ? 'none' : 'block';
+      })
+    });
+    menu.appendChild(li);
+  }
+
+  //shows first tab data
+  document.getElementById('iteration-0').click();
+  document.getElementById('iterationSelected').innerHTML = `Iteration ${document.getElementById('iteration-0').innerHTML} selected`
+
+}
+</script>
+
+<!-- Create the Selected Iteration Label -->
+
+<script>
+$(document).ready(function(){
+    $(function() {
+        $("#iterationList li").click(function() {
+            document.getElementById('iterationSelected').innerHTML = "Iteration " + this.innerHTML + " selected"
+        });
+    });
+});
+</script>
+
+<!-- Filter Action for the Iterations -->
+
+<script>
+$("#filterInput").on("input paste", function() {
+    var value = $(this).val();
+    $("#iterationList li").filter(function() {
+	    $("#showOnlyFailures").data("clickCount") ? $("#showOnlyFailures").click():null;
+        $(this).toggle($(this).text().indexOf(value) > -1)
+    });
+});
+</script>
+
+<!-- Showing the Failed Interations -->
+
+<script>
+$('#showOnlyFailures').on('click', function(e) {
+    let clickCount = $(this).data("clickCount") || 1
+	$("#filterInput").val()!="" && clickCount==1 ? $("#filterInput").val('').trigger('input'): null;
+    let selectedIteration = $('#iterationList li').filter(function () {
+        return $(this).css('border-bottom').indexOf("solid") > -1 && $(this).hasClass('itFailed');
+    });
+    selectedIteration.length || clickCount > 1 ? null : $("#iterationList li.itFailed")[0].click()
+    $("#iterationList li.itPassed").toggle()
+    $("div.bg-success [id*=requests]").parents('[class^="row iteration-"]').toggle();
+    clickCount = clickCount > 1 ? 1 : ++clickCount;
+    clickCount > 1 ? $("#showOnlyFailures").html("Show All Iterations") : $("#showOnlyFailures").html("Show Failed Iterations");
+    $(this).data("clickCount", clickCount)
+})
+</script>
+</body>
+</html>
